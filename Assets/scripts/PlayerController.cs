@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         moveHorizontal = Input.GetAxisRaw("Horizontal"); //we can change this in the Unity settings to controller in the future. 
-        moveVertical = Input.GetAxisRaw("Vertical"); 
+       /* moveVertical = Input.GetAxisRaw("Vertical");*/ 
     }
 
     //---movement 
@@ -37,15 +37,15 @@ public class PlayerController : MonoBehaviour
             myBody.AddForce(new Vector2(moveHorizontal * moveSpeed, 0f), ForceMode2D.Impulse); // not using Time.Delta time beacause AddForce has it applied by default. 
         }
 
-        if (!isJumping && moveVertical > 0f)
+       /* if (!isJumping && moveVertical > 0f)
         {
             myBody.AddForce(new Vector2(0f, moveVertical * jumpForce), ForceMode2D.Impulse);  
-        }
+        }*/
 
     }
 
     //---Jumping
-    private void OnTriggerEnter2D(Collider2D collision)
+   /* private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag == "floor")
         {
@@ -55,5 +55,5 @@ public class PlayerController : MonoBehaviour
     void OnTriggerExit2D(Collider2D collision)
     {
         isJumping = true; 
-    }
+    }*/
 }
