@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D myBody;
 
-    private float moveSpeed;
-    private float jumpForce;
+    [SerializeField] float moveSpeed;
+    [SerializeField] float jumpForce;
     private bool isJumping;
     private float moveHorizontal; 
     private float moveVertical;
