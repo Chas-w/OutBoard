@@ -37,6 +37,8 @@ public class RoadManager : MonoBehaviour
 
     public float cameraElevation = 5;
 
+    public float cameraHorizontalOffset = 0;
+
     public float FOV = 1;
 
     public float slightUpDownRotation;
@@ -82,7 +84,7 @@ public class RoadManager : MonoBehaviour
     }
 
     Vector3 WorldToScreen(Vector3 worldPos) {
-        float xCam = worldPos.x - 0;
+        float xCam = worldPos.x - cameraHorizontalOffset;
         float yCam = worldPos.y - cameraElevation;
         float zCam = worldPos.z - 0;
 
