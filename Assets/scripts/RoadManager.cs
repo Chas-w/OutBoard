@@ -13,6 +13,8 @@ public class RoadManager : MonoBehaviour
 
     float camWidth;
 
+    public float segmentLength;
+
 
     public class Segment
     {
@@ -21,12 +23,15 @@ public class RoadManager : MonoBehaviour
 
         Color segmentColor;
 
+        Sprite segmentSprite;
+
 
         public Segment(Vector3 point1, Vector3 point2, Color thisColor) {
             p1 = point1;
             p2 = point2;
             segmentColor = thisColor;
-        
+            
+
         }
     }
 
