@@ -251,10 +251,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f219e5c19c2eab4db4af8306e7616cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultSegmentSprite: {fileID: 21300000, guid: cb5eff5c5737e3e48b06f61e343b0e0c, type: 3}
   cam: {fileID: 816539357}
+  ZPos: 0
+  speed: 0.5
+  drawDistance: 12
+  segmentLength: 2
+  trackLength: 0
   roadWidth: 20.8
-  roadEnd: 20.8
-  roadStart: 1.35
+  roadEnd: 1000
+  roadStart: 1
   cameraElevation: 2.55
+  cameraHorizontalOffset: 0
   FOV: 1
   slightUpDownRotation: -0.7
