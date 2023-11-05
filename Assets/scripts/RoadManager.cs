@@ -40,12 +40,15 @@ public class RoadManager : MonoBehaviour
 
         public int index;
 
+        public float curviness;
 
-        public Segment(Vector3 point1, Vector3 point2, Color thisColor, Sprite thisSegmentSprite) {
+
+        public Segment(Vector3 point1, Vector3 point2, Color thisColor, Sprite thisSegmentSprite, float thisSegmentCurviness) {
             p1 = point1;
             p2 = point2;
             segmentColor = thisColor;
             segmentSprite = thisSegmentSprite;
+            curviness = thisSegmentCurviness;
 
         }
     }
@@ -94,7 +97,7 @@ public class RoadManager : MonoBehaviour
         for (int i = 1; i < 501; i++)
         {
             //Debug.Log(new Segment(new Vector3(0, 0, i * segmentLength), new Vector3(0, 0, (i + 1) * segmentLength), Color.white, defaultSegmentSprite));
-            segments[i-1] = new Segment(new Vector3(0,0,i* segmentLength), new Vector3(0,0,(i+1)*segmentLength),Color.white,defaultSegmentSprite);
+            segments[i-1] = new Segment(new Vector3(0,0,i* segmentLength), new Vector3(0,0,(i+1)*segmentLength),Color.white,defaultSegmentSprite, 0);
             segments[i - 1].index = i - 1;
         
         }
