@@ -79,6 +79,8 @@ public class RoadManager : MonoBehaviour
         camWidth = xAspect / yAspect * camHeight;
 
         ResetRoad();
+
+        AddCurveAt(5, 12, 4, 6, 4);
     }
 
     // Update is called once per frame
@@ -111,7 +113,12 @@ public class RoadManager : MonoBehaviour
     void RenderRoad() {
 
         Segment baseSegment = FindSegment(ZPos);
-        
+        float basePercent = 1- ((ZPos % segmentLength) / segmentLength);
+
+        float dx = +(baseSegment.curviness * basePercent);
+        float x = 0;
+
+
         //Debug.DrawLine( WorldToScreen(new Vector3(roadWidth/2,0,baseSegment.p1.z)), WorldToScreen(new Vector3(roadWidth/2, 0, roadEnd)));
         //Debug.Log(WorldToScreen(new Vector3(roadWidth/2, 0, roadStart)).x);
 
@@ -120,17 +127,28 @@ public class RoadManager : MonoBehaviour
         //Debug.Log(WorldToScreen(new Vector3(roadWidth / 2, 0, roadStart)).x);
 
 
-        for (int i = 0; i < drawDistance; i++)
+        for (int i = baseSegment.index+1; i < baseSegment.index + drawDistance; i++)
         {
-            Segment currentSegment = segments[(baseSegment.index + i) % segments.Length];
+            Segment currentSegment = segments[i % segments.Length];
 
-            Debug.DrawLine(WorldToScreen(currentSegment.p1), WorldToScreen(currentSegment.p1 + new Vector3(0,0,.1f)));
-            Debug.DrawLine(WorldToScreen(currentSegment.p2), WorldToScreen(currentSegment.p2 + new Vector3(0,0,.1f)));
+            Debug.DrawLine(WorldToScreen(currentSegment.p1,0-x), WorldToScreen(currentSegment.p1 + new Vector3(0, 0,.1f),0-x));
+            Debug.DrawLine(WorldToScreen(currentSegment.p2, 0-x-dx), WorldToScreen(currentSegment.p2 + new Vector3(0, 0,.1f),0-x-dx), Color.red);
+            //Debug.DrawLine(WorldToScreen(currentSegment.p2), WorldToScreen(currentSegment.p2 + new Vector3(0,0,.1f)));
 
             //Draw left and right segment bounds
-            Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0)), WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0)));
+            Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x-dx));
 
-            Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0)), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0)));
+            Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x-dx));
+
+
+            //Little criss-cross pattern for decoration and more visibility
+            Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x-dx));
+            Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x-dx));
+
+
+           
+            x = x + dx;
+            dx = dx + currentSegment.curviness;
 
 
         }
@@ -139,13 +157,13 @@ public class RoadManager : MonoBehaviour
 
     Segment FindSegment(float currentZPosition) {
 
-        float segmentIndex = Mathf.Floor((Mathf.Floor(currentZPosition / segmentLength) % segments.Length) );
+        float segmentIndex = (Mathf.Floor(currentZPosition / segmentLength) % segments.Length);
 
         return segments[(int)segmentIndex];
     }
 
-    Vector3 WorldToScreen(Vector3 worldPos) {
-        float xCam = worldPos.x - cameraHorizontalOffset;
+    Vector3 WorldToScreen(Vector3 worldPos, float cameraXOffset) {
+        float xCam = worldPos.x - cameraHorizontalOffset - cameraXOffset;
         float yCam = worldPos.y - cameraElevation;
         float zCam = worldPos.z - ZPos;
 
@@ -157,6 +175,54 @@ public class RoadManager : MonoBehaviour
 
         return new Vector3(xScreen,yScreen,0);
 
+    }
+
+    void AddCurveAt( int segmentCurveStartsAt ,int segmentsInCurve, int curveEntrySegments, int curveExitSegments, float overallCurviness) {
+
+        for (int i = 0; i < curveEntrySegments; i++)
+        {
+            Segment segmentToCurve = segments[segmentCurveStartsAt + i];
+
+            segmentToCurve.curviness = EaseIn(0, overallCurviness, i / curveEntrySegments);
+        }
+
+        for (int i = 0; i < segmentsInCurve-curveExitSegments; i++)
+        {
+            Segment segmentToCurve = segments[segmentCurveStartsAt + curveEntrySegments + i];
+
+            segmentToCurve.curviness = overallCurviness;
+        }
+
+        for (int i = 0; i <curveExitSegments; i++)
+        {
+            Segment segmentToCurve = segments[segmentCurveStartsAt + segmentsInCurve - curveExitSegments + i];
+
+            segmentToCurve.curviness = EaseInOut(overallCurviness,0, i / curveExitSegments);
+        }
+
+
+
+
+        //for (int i = 1; i < segmentsInCurve; i++)
+        //{
+        //Segment segmentToCurve = segments[segmentCurveStartsAt + curveEntrySegments + i];
+
+
+        //}
+    }
+
+
+    float EaseIn(float a, float b, float alpha) {
+        return a + (b - a) * Mathf.Pow(alpha, 2);
+    }
+    
+    float EaseOut(float a, float b, float alpha) {
+        return a + (b - a) * (1 - Mathf.Pow(1 - alpha, 2));
+    }
+
+    float EaseInOut(float a, float b, float alpha)
+    {
+        return a + (b - a) * ((-Mathf.Cos(alpha*Mathf.PI)/2)+0.5f);
     }
 
 }

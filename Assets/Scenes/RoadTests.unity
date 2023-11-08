@@ -254,14 +254,14 @@ MonoBehaviour:
   defaultSegmentSprite: {fileID: 21300000, guid: cb5eff5c5737e3e48b06f61e343b0e0c, type: 3}
   cam: {fileID: 816539357}
   ZPos: 0
-  speed: 0.5
-  drawDistance: 12
+  speed: 4
+  drawDistance: 24
   segmentLength: 2
-  trackLength: 0
-  roadWidth: 20.8
+  trackLength: 1000
+  roadWidth: 49.4
   roadEnd: 1000
   roadStart: 1
-  cameraElevation: 2.55
+  cameraElevation: 9.75
   cameraHorizontalOffset: 0
   FOV: 1
-  slightUpDownRotation: -0.7
+  slightUpDownRotation: 0.2
