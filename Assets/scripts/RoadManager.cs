@@ -19,7 +19,7 @@ public class RoadManager : MonoBehaviour
 
     public float speed = .5f;
 
-    public float drawDistance = 12;
+    public float drawDistance = 12; //This is distance in segments. If DrawDistance is 12, it will render 12 road segments ahead of the player. 
 
     public float segmentLength = 2;
 
@@ -55,8 +55,8 @@ public class RoadManager : MonoBehaviour
 
     public float roadWidth = 10;
 
-    public float roadEnd = 8;
-    public float roadStart = 1;
+    float roadEnd = 1000;
+    float roadStart = 1;
 
     public float cameraElevation = 5;
 
@@ -65,6 +65,9 @@ public class RoadManager : MonoBehaviour
     public float FOV = 1;
 
     public float slightUpDownRotation;
+
+
+    public GameObject renderedSegmentHolder;
 
 
 
@@ -107,7 +110,12 @@ public class RoadManager : MonoBehaviour
         trackLength = segments.Length * segmentLength;
 
         Debug.Log(trackLength);
+
+        //Now we're going to make [DrawDistance] amount of Mesh Renderers
+
+
         
+
     }
 
     void RenderRoad() {
