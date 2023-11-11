@@ -69,6 +69,10 @@ public class RoadManager : MonoBehaviour
 
     public GameObject renderedSegmentHolder;
 
+    public GameObject renderedSegmentPrefab;
+
+    public List<GameObject> renderedSegmentsList = new List<GameObject>();
+
 
 
 
@@ -112,7 +116,13 @@ public class RoadManager : MonoBehaviour
         Debug.Log(trackLength);
 
         //Now we're going to make [DrawDistance] amount of Mesh Renderers
+        for (int i = 0; i < drawDistance-1; i++)
+        {
+            GameObject newRenderedSegment = Instantiate(renderedSegmentPrefab, renderedSegmentHolder.transform);
 
+            renderedSegmentsList.Add(newRenderedSegment);
+
+        }
 
         
 
@@ -139,24 +149,81 @@ public class RoadManager : MonoBehaviour
         {
             Segment currentSegment = segments[i % segments.Length];
 
-            Debug.DrawLine(WorldToScreen(currentSegment.p1,0-x), WorldToScreen(currentSegment.p1 + new Vector3(0, 0,.1f),0-x));
-            Debug.DrawLine(WorldToScreen(currentSegment.p2, 0-x-dx), WorldToScreen(currentSegment.p2 + new Vector3(0, 0,.1f),0-x-dx), Color.red);
-            //Debug.DrawLine(WorldToScreen(currentSegment.p2), WorldToScreen(currentSegment.p2 + new Vector3(0,0,.1f)));
 
+            //Drawing little dots for debug purposes
+            //Debug.DrawLine(WorldToScreen(currentSegment.p1,0-x), WorldToScreen(currentSegment.p1 + new Vector3(0, 0,.1f),0-x));
+            //Debug.DrawLine(WorldToScreen(currentSegment.p2, 0-x-dx), WorldToScreen(currentSegment.p2 + new Vector3(0, 0,.1f),0-x-dx), Color.red);
+            
             //Draw left and right segment bounds
-            Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x-dx));
 
-            Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x-dx));
+            //Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x-dx));
+
+            Vector3 rightUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x);
+            Vector3 rightLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x - dx);
+
+            Debug.DrawLine( rightUpperCornerScreenSpace, rightLowerCornerScreenSpace);
+
+
+            //Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x-dx));
+
+            Vector3 leftUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x);
+            Vector3 leftLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x - dx);
+
+            Debug.DrawLine(leftUpperCornerScreenSpace, leftLowerCornerScreenSpace);
+
+
+            //Now for the tricky part--making the road segment into a mesh!
+
+            int segmentMeshIndex = (int)( (currentSegment.index) % (drawDistance-1));
+            Debug.Log(segmentMeshIndex.ToString());
+            GameObject segmentMeshObject = renderedSegmentsList[segmentMeshIndex];
+            MeshFilter segmentFilter = segmentMeshObject.GetComponent<MeshFilter>();
+            Mesh segmentMesh = segmentFilter.mesh;
+
+            //segmentMesh.Clear();
+
+            //segmentMeshObject.transform.position = WorldToScreen(currentSegment.p1 + currentSegment.p2/2, -x +dx/2);
+
+            List<Vector3> vertices = new List<Vector3>();
+
+            vertices.Add(leftLowerCornerScreenSpace);
+            vertices.Add(rightLowerCornerScreenSpace);
+            vertices.Add(leftUpperCornerScreenSpace);
+            vertices.Add(rightUpperCornerScreenSpace);
+
+            Vector2[] uv = new Vector2[4]
+            {
+                    new Vector2(0, 0),
+                    new Vector2(1, 0),
+                    new Vector2(0, 1),
+                    new Vector2(1, 1)
+            };
+
+
+            segmentMesh.uv = uv;
+            segmentMesh.vertices = vertices.ToArray();
+            segmentMesh.triangles = new int[] { 0, 2, 1, 2,3,1};
+
+
+
+
+
+
 
 
             //Little criss-cross pattern for decoration and more visibility
-            Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x-dx));
-            Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x-dx));
+            //Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x-dx));
+            //Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x-dx));
 
+
+            //Lines where segments meet
+            Debug.DrawLine(leftLowerCornerScreenSpace, rightLowerCornerScreenSpace);
+            Debug.DrawLine(leftUpperCornerScreenSpace, rightUpperCornerScreenSpace);
 
            
             x = x + dx;
             dx = dx + currentSegment.curviness;
+
 
 
         }
