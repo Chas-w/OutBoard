@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1147987422}
-  m_IndirectSpecularColor: {r: 0.44861895, g: 0.49867058, b: 0.5756665, a: 1}
+  m_IndirectSpecularColor: {r: 0.45142967, g: 0.5007249, b: 0.5712586, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -394,13 +394,13 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -451,14 +451,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147987421}
-  m_LocalRotation: {x: 0.3742243, y: -0.03655977, z: 0.196373, w: 0.90557015}
+  m_LocalRotation: {x: 0.9639554, y: 0.098898895, z: -0.012306014, w: 0.24669333}
   m_LocalPosition: {x: 2.87, y: -0.15, z: -0.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 43.799, y: 6.424, z: 27.055}
+  m_LocalEulerAnglesHint: {x: 28.557, y: 178.364, z: 167.868}
 --- !u!1 &1535953739
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +542,7 @@ MonoBehaviour:
   speed: 4
   drawDistance: 24
   segmentLength: 2
-  segmentMeshDimensions: {x: 4, y: 4}
+  segmentMeshDimensions: {x: 10, y: 10}
   trackLength: 1000
   roadWidth: 50
   cameraElevation: 12

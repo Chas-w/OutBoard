@@ -43,9 +43,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _displacement: 0.75
-    - _displacementIntensity: 0
-    - _fresnelPower: 1.14
-    - _normalIntensity: 1
+    - _displacementIntensity: 0.5
+    - _fresnelPower: 10
+    - _normalIntensity: 0.081
     - _reflectivity: 1
     - _scale: 40.1
     m_Colors: []
