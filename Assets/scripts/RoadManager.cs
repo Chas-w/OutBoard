@@ -25,6 +25,8 @@ public class RoadManager : MonoBehaviour
 
     public float segmentLength = 2;
 
+    public Vector2 segmentMeshDimensions = new Vector2(2, 2);
+
     [SerializeField]
     float trackLength;
 
@@ -85,6 +87,8 @@ public class RoadManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        segmentMeshDimensions = new Vector2( Mathf.Ceil(segmentMeshDimensions.x), Mathf.Ceil(segmentMeshDimensions.y));
+
         camWidth = xAspect / yAspect * camHeight;
 
         ResetRoad();
@@ -115,7 +119,7 @@ public class RoadManager : MonoBehaviour
 
         trackLength = segments.Length * segmentLength;
 
-        Debug.Log(trackLength);
+        //Debug.Log(trackLength);
 
         //Now we're going to make [DrawDistance] amount of Mesh Renderers
         for (int i = 0; i < drawDistance-1; i++)
@@ -146,7 +150,7 @@ public class RoadManager : MonoBehaviour
         //Debug.DrawLine(WorldToScreen(new Vector3(-roadWidth / 2, 0, baseSegment.p1.z)), WorldToScreen(new Vector3(-roadWidth / 2, 0, roadEnd)));
         //Debug.Log(WorldToScreen(new Vector3(roadWidth / 2, 0, roadStart)).x);
 
-
+        int meshCounter = 0;
         for (int i = baseSegment.index+1; i < baseSegment.index + drawDistance; i++)
         {
             Segment currentSegment = segments[i % segments.Length];
@@ -155,10 +159,78 @@ public class RoadManager : MonoBehaviour
             //Drawing little dots for debug purposes
             //Debug.DrawLine(WorldToScreen(currentSegment.p1,0-x), WorldToScreen(currentSegment.p1 + new Vector3(0, 0,.1f),0-x));
             //Debug.DrawLine(WorldToScreen(currentSegment.p2, 0-x-dx), WorldToScreen(currentSegment.p2 + new Vector3(0, 0,.1f),0-x-dx), Color.red);
-            
+
             //Draw left and right segment bounds
 
             //Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x-dx));
+
+
+
+            //Now for the tricky part--making the road segment into a mesh!
+
+            Vector2 meshDimensions = new Vector2(segmentMeshDimensions.x,segmentMeshDimensions.y);
+
+
+            List<Vector3> vertices = new List<Vector3>();
+
+            //vertices.Add(leftLowerCornerScreenSpace);
+            //vertices.Add(rightLowerCornerScreenSpace);
+            //vertices.Add(leftUpperCornerScreenSpace);
+            //vertices.Add(rightUpperCornerScreenSpace);
+
+            Vector3 rightLowerCornerWorldSpace = currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0);
+            Vector3 rightUpperCornerWorldSpace = currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0);
+
+
+            Vector3 leftLowerCornerWorldSpace = currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0);
+            Vector3 leftUpperCornerWorldSpace = currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0);
+
+
+            float xPerStep = roadWidth /meshDimensions.x;
+            float yPerStep = segmentLength/meshDimensions.y;
+            for (int k = 0; k < meshDimensions.y+1; k++)
+            {
+
+                for (int g = 0; g < meshDimensions.x+1; g++)
+                {
+                    Vector3 currentSegmentVertex = new Vector3(
+                        
+                        leftLowerCornerWorldSpace.x + g * xPerStep
+                        , currentSegment.p1.y
+                        , leftLowerCornerWorldSpace.z + k * yPerStep
+
+                        );
+
+                    vertices.Add( WorldToScreen(currentSegmentVertex,-x -(dx * (k/meshDimensions.y) )) );
+
+                    //if (vertices.Count-1 > 0)
+                    //{
+                        //Debug.DrawLine(vertices[vertices.Count-1], vertices[ vertices.Count - 2]);
+                    //}
+
+                }
+            }
+
+            List<int> trianglesList = new List<int>();
+
+            for (int k = 0; k < meshDimensions.y; k++)
+            {
+
+                for (int g = 0; g < meshDimensions.x; g++)
+                {
+                    int triangleStartIndex = (int)(g + (k*(meshDimensions.x+1))  );
+
+                    trianglesList.Add(triangleStartIndex);
+                    trianglesList.Add((int)(triangleStartIndex + meshDimensions.x + 1));
+                    trianglesList.Add((int)(triangleStartIndex + meshDimensions.x + 2));
+
+                    trianglesList.Add(triangleStartIndex);
+                    trianglesList.Add((int)(triangleStartIndex + meshDimensions.x + 2));
+                    trianglesList.Add(triangleStartIndex+1);
+                }
+            }
+
+
 
             Vector3 rightUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x);
             Vector3 rightLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x - dx);
@@ -174,10 +246,10 @@ public class RoadManager : MonoBehaviour
             Debug.DrawLine(leftUpperCornerScreenSpace, leftLowerCornerScreenSpace);
 
 
-            //Now for the tricky part--making the road segment into a mesh!
+            
 
-            int segmentMeshIndex = (int)( (currentSegment.index) % (drawDistance-1));
-            Debug.Log(segmentMeshIndex.ToString());
+            int segmentMeshIndex = meshCounter;
+            //Debug.Log(segmentMeshIndex.ToString());
             GameObject segmentMeshObject = renderedSegmentsList[segmentMeshIndex];
             MeshFilter segmentFilter = segmentMeshObject.GetComponent<MeshFilter>();
             Mesh segmentMesh = segmentFilter.mesh;
@@ -186,13 +258,8 @@ public class RoadManager : MonoBehaviour
 
             //segmentMeshObject.transform.position = WorldToScreen(currentSegment.p1 + currentSegment.p2/2, -x +dx/2);
 
-            List<Vector3> vertices = new List<Vector3>();
 
-            vertices.Add(leftLowerCornerScreenSpace);
-            vertices.Add(rightLowerCornerScreenSpace);
-            vertices.Add(leftUpperCornerScreenSpace);
-            vertices.Add(rightUpperCornerScreenSpace);
-
+            /*
             Vector2[] uv = new Vector2[4]
             {
                     new Vector2(0, 0),
@@ -200,12 +267,31 @@ public class RoadManager : MonoBehaviour
                     new Vector2(0, 1),
                     new Vector2(1, 1)
             };
+            */
 
+            Vector2[] uv = new Vector2[vertices.Count];
 
-            segmentMesh.uv = uv;
+            for (int g = 0; g < vertices.Count; g++)
+            {
+                //Debug.DrawLine(vertices[g], vertices[g] + new Vector3(0, .1f, 0), Color.red);
+
+                //uv[g] = vertices[g];
+
+                uv[g] = new Vector2(  Mathf.Floor( g/(meshDimensions.x+1) )/meshDimensions.y , (g % (meshDimensions.x+1) )/meshDimensions.x );
+
+            }
+
+            //Debug.Log(uv.Length);
+            
+
+            
+
             segmentMesh.vertices = vertices.ToArray();
-            segmentMesh.triangles = new int[] { 0, 2, 1, 2,3,1};
+            segmentMesh.uv = uv;
+            segmentMesh.triangles = trianglesList.ToArray();
 
+            Debug.Log(vertices.ToArray().Length);
+            Debug.Log(trianglesList.ToArray().Length);
 
 
 
@@ -226,7 +312,7 @@ public class RoadManager : MonoBehaviour
             x = x + dx;
             dx = dx + currentSegment.curviness;
 
-
+            meshCounter++;
 
         }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1147987422}
-  m_IndirectSpecularColor: {r: 0.4486196, g: 0.49867153, b: 0.5756671, a: 1}
+  m_IndirectSpecularColor: {r: 0.44861895, g: 0.49867058, b: 0.5756665, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -542,6 +542,7 @@ MonoBehaviour:
   speed: 4
   drawDistance: 24
   segmentLength: 2
+  segmentMeshDimensions: {x: 4, y: 4}
   trackLength: 1000
   roadWidth: 50
   cameraElevation: 12
