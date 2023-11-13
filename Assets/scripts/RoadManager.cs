@@ -6,32 +6,58 @@ using UnityEngine;
 
 public class RoadManager : MonoBehaviour
 {
+    [Header("External Variables")]
     public Sprite defaultSegmentSprite;
 
     public Camera cam;
 
-    float xAspect = 16;
-    float yAspect = 9;
 
-    float camHeight = 2f * 5;
+    [SerializeField] float trackLength;
 
-    float camWidth;
+    [Header("Speed Variables")]
+    public float normSpeed;
+    public float maxSpeed;
+    public float speed;
+    [SerializeField] float maxSpeedMultiplier = 5;
+
+
+    [Header ("Visual Modifiers")]
 
     public float ZPos = 0;
-
-    public float speed = .5f;
 
     public float drawDistance = 12; //This is distance in segments. If DrawDistance is 12, it will render 12 road segments ahead of the player. 
 
     public float segmentLength = 2;
 
+    public float roadWidth = 10;
+
+    public float cameraElevation = 5;
+
+    public float cameraHorizontalOffset = 0;
+
+    public float FOV = 1;
+
+    public float slightUpDownRotation;
+
+    public GameObject renderedSegmentHolder;
+
+    public GameObject renderedSegmentPrefab;
+
+    public List<GameObject> renderedSegmentsList = new List<GameObject>();
+
+    public Segment[] segments = new Segment[500];
+
     public Vector2 segmentMeshDimensions = new Vector2(2, 2);
 
-    [SerializeField]
-    float trackLength;
 
-
-
+    #region private vars
+    float xAspect = 16;
+    float yAspect = 9;
+    float camHeight = 2f * 5;
+    float camWidth;
+    float roadEnd = 1000;
+    float roadStart = 1;
+    #endregion
 
     public class Segment
     {
@@ -57,32 +83,14 @@ public class RoadManager : MonoBehaviour
         }
     }
 
-    public float roadWidth = 10;
 
-    float roadEnd = 1000;
-    float roadStart = 1;
+    
 
-    public float cameraElevation = 5;
-
-    public float cameraHorizontalOffset = 0;
-
-    public float FOV = 1;
-
-    public float slightUpDownRotation;
-
-
-    public GameObject renderedSegmentHolder;
-
-    public GameObject renderedSegmentPrefab;
-
-    public List<GameObject> renderedSegmentsList = new List<GameObject>();
-
-
-
-
-    public Segment[] segments = new Segment[500];
-
-
+    private void Awake()
+    {
+        maxSpeed = normSpeed * maxSpeedMultiplier;
+        speed = normSpeed;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -94,6 +102,7 @@ public class RoadManager : MonoBehaviour
         ResetRoad();
 
         AddCurveAt(5, 12, 4, 6, 4);
+        
     }
 
     // Update is called once per frame
@@ -235,7 +244,7 @@ public class RoadManager : MonoBehaviour
             Vector3 rightUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x);
             Vector3 rightLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x - dx);
 
-            Debug.DrawLine( rightUpperCornerScreenSpace, rightLowerCornerScreenSpace);
+            //Debug.DrawLine( rightUpperCornerScreenSpace, rightLowerCornerScreenSpace);
 
 
             //Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x-dx));
@@ -290,8 +299,8 @@ public class RoadManager : MonoBehaviour
             segmentMesh.uv = uv;
             segmentMesh.triangles = trianglesList.ToArray();
 
-            Debug.Log(vertices.ToArray().Length);
-            Debug.Log(trianglesList.ToArray().Length);
+           // Debug.Log(vertices.ToArray().Length);
+           // Debug.Log(trianglesList.ToArray().Length);
 
 
 
