@@ -25,28 +25,28 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _albedo:
-        m_Texture: {fileID: 2800000, guid: b24ed09f326132b4f931d6f1259724ce, type: 3}
+        m_Texture: {fileID: 2800000, guid: 56fabfb96aa80904c9942277b64edfa2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _displacementMap:
-        m_Texture: {fileID: 2800000, guid: 62b526e4e0d8bc245899ff1a7461909f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 875740426e359d74288ffce9e1e5622f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _normalMap:
-        m_Texture: {fileID: 2800000, guid: 4f1ae7bb11d9db34aa8e0a970d75333e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5d1f69f31b783b04c8df9693e8c6a8e1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _roughness:
-        m_Texture: {fileID: 2800000, guid: 4740fa90c48eb0b45b41051d15a6bb17, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _displacement: 0.75
-    - _displacementIntensity: 0.5
+    - _displacementIntensity: 0.765
     - _fresnelPower: 10
-    - _normalIntensity: 0.081
-    - _reflectivity: 1
+    - _normalIntensity: 0.016
+    - _reflectivity: 0.844
     - _scale: 40.1
     m_Colors: []
   m_BuildTextureStacks: []

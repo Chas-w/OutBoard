@@ -14,7 +14,7 @@ Shader "Custom/snowRoad"
 
         _fresnelPower ("fresnel power", Range(0, 10)) = 5
         _normalIntensity ("normal intensity", Range(0, 1)) = 1
-        _displacementIntensity ("displacement intensity", Range(0, 0.5)) = 0
+        _displacementIntensity ("displacement intensity", Range(0, 1)) = 0
     }
     SubShader
     {
