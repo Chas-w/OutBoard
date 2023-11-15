@@ -50,6 +50,23 @@ public class RoadManager : MonoBehaviour
     public Vector2 segmentMeshDimensions = new Vector2(2, 2);
 
 
+    [Header("Course Modifiers")]
+
+    public int maxCurveDistance = 100;
+
+    public int minCurveDistance = 10;
+
+    public int maxCurveLengthInSegments = 30;
+
+    public int maxCurveCurviness = 5;
+
+    private int segmentToCalculateLoopAt = 950;
+
+    private bool calculatedLoop = false;
+
+
+
+
     #region private vars
     float xAspect = 16;
     float yAspect = 9;
@@ -101,7 +118,7 @@ public class RoadManager : MonoBehaviour
 
         ResetRoad();
 
-        AddCurveAt(5, 12, 4, 6, 4);
+        //AddCurveAt(5, 12, 4, 6, 4);
         
     }
 
@@ -139,7 +156,74 @@ public class RoadManager : MonoBehaviour
 
         }
 
-        
+
+
+        float amountToWait = (int)Random.Range(drawDistance, drawDistance+10);
+        for (int i = 5; i < segmentToCalculateLoopAt; i++)
+        {
+            if (amountToWait > 0)
+            {
+                amountToWait--;
+            }
+            else {
+                int curveLength = Random.Range(5, maxCurveLengthInSegments + 1);
+
+                int curveEntrySegmentsNumber = Random.Range(2, curveLength-1);
+
+                int curveExitSegmentsNumber = Random.Range(2, curveLength-1);
+
+
+                
+
+                float thisCurveCurviness = Random.Range(0, maxCurveCurviness);
+
+                if (Random.Range(0, 2) == 1)
+                {
+                    thisCurveCurviness *= -1;
+                }
+
+
+                AddCurveAt(i, curveLength, curveEntrySegmentsNumber, curveExitSegmentsNumber, thisCurveCurviness);
+
+                //amountToWait = (int)(Mathf.Ceil(curveLength));
+
+                if (Random.Range(0, 2) == 1)
+                {
+                    curveLength = Random.Range(5, maxCurveLengthInSegments + 1);
+
+                    curveEntrySegmentsNumber = Random.Range(2, curveLength - 1);
+
+                    curveExitSegmentsNumber = Random.Range(2, curveLength - 1);
+
+
+
+
+                    float thisOtherCurveCurviness = Random.Range(0, maxCurveCurviness) * (int)-Mathf.Sign(thisCurveCurviness);
+
+                    
+
+
+                    AddCurveAt(i, curveLength, curveEntrySegmentsNumber, curveExitSegmentsNumber, thisOtherCurveCurviness);
+
+
+
+                    amountToWait = (int)(Mathf.Ceil(curveLength));
+                }
+                else {
+                    amountToWait = (int)(Mathf.Ceil(curveLength)) + Random.Range(minCurveDistance, maxCurveDistance);
+
+
+                }
+
+            }
+
+
+            
+
+            
+
+        }
+
 
     }
 
