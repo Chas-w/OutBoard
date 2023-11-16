@@ -110,7 +110,7 @@ public class RoadManager : MonoBehaviour
 
         segments = new Segment[(int)(trackLength/segmentLength)];
 
-        segmentToCalculateLoopAt = trackLength - 50;
+        segmentToCalculateLoopAt = (int)(trackLength - 50);
     }
 
     // Start is called before the first frame update
