@@ -60,7 +60,7 @@ public class RoadManager : MonoBehaviour
 
     public int maxCurveCurviness = 5;
 
-    private int segmentToCalculateLoopAt = 950;
+    private int segmentToCalculateLoopAt;
 
     private bool calculatedLoop = false;
 
@@ -109,6 +109,8 @@ public class RoadManager : MonoBehaviour
         speed = normSpeed;
 
         segments = new Segment[(int)(trackLength/segmentLength)];
+
+        segmentToCalculateLoopAt = trackLength - 50;
     }
 
     // Start is called before the first frame update
