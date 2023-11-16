@@ -46,12 +46,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultSegmentSprite: {fileID: 21300000, guid: cb5eff5c5737e3e48b06f61e343b0e0c, type: 3}
   cam: {fileID: 0}
+  trackLength: 3000
+  normSpeed: 5
+  maxSpeed: 0
+  speed: 0
+  maxSpeedMultiplier: 4
   ZPos: 0
-  speed: 4
   drawDistance: 24
   segmentLength: 2
-  segmentMeshDimensions: {x: 2, y: 2}
-  trackLength: 1000
   roadWidth: 50
   cameraElevation: 12
   cameraHorizontalOffset: 0
@@ -60,3 +62,8 @@ MonoBehaviour:
   renderedSegmentHolder: {fileID: 0}
   renderedSegmentPrefab: {fileID: 2958758982541098870, guid: 425439c9b4268f846942d7aabbd7c2ff, type: 3}
   renderedSegmentsList: []
+  segmentMeshDimensions: {x: 8, y: 8}
+  maxCurveDistance: 80
+  minCurveDistance: 20
+  maxCurveLengthInSegments: 30
+  maxCurveCurviness: 5

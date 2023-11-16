@@ -12,7 +12,7 @@ public class RoadManager : MonoBehaviour
     public Camera cam;
 
 
-    [SerializeField] float trackLength;
+    public float trackLength;
 
     [Header("Speed Variables")]
     public float normSpeed;
@@ -45,7 +45,7 @@ public class RoadManager : MonoBehaviour
 
     public List<GameObject> renderedSegmentsList = new List<GameObject>();
 
-    public Segment[] segments = new Segment[500];
+    public Segment[] segments;// = new Segment[trackLength/segmentLength];
 
     public Vector2 segmentMeshDimensions = new Vector2(2, 2);
 
@@ -107,6 +107,8 @@ public class RoadManager : MonoBehaviour
     {
         maxSpeed = normSpeed * maxSpeedMultiplier;
         speed = normSpeed;
+
+        segments = new Segment[(int)(trackLength/segmentLength)];
     }
 
     // Start is called before the first frame update
@@ -135,7 +137,9 @@ public class RoadManager : MonoBehaviour
 
     void ResetRoad() 
     {
-        for (int i = 1; i < 501; i++)
+        int loopLength = (int)((trackLength / segmentLength) + 1); 
+
+        for (int i = 1; i < loopLength; i++)
         {
             //Debug.Log(new Segment(new Vector3(0, 0, i * segmentLength), new Vector3(0, 0, (i + 1) * segmentLength), Color.white, defaultSegmentSprite));
             segments[i-1] = new Segment(new Vector3(0,0,i* segmentLength), new Vector3(0,0,(i+1)*segmentLength),Color.white,defaultSegmentSprite, 0);
