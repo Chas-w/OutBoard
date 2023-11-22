@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 1147004156}
   - component: {fileID: 1147004155}
   m_Layer: 5
-  m_Name: Overlay
+  m_Name: snowOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -725,14 +725,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0ce52830d0809604ea6cb5063d8b1a81, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5a78db769277fee4da430745a705862d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -827,6 +827,7 @@ GameObject:
   - component: {fileID: 1282482053}
   - component: {fileID: 1282482052}
   - component: {fileID: 1282482051}
+  - component: {fileID: 1282482054}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -939,6 +940,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectMaterial: {fileID: 2100000, guid: 75d37fa73bea5423c83c12a875e22314, type: 2}
+--- !u!114 &1282482054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282482047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2e01c71334b5d459dc94124da9a047, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mat: {fileID: 2100000, guid: 75d37fa73bea5423c83c12a875e22314, type: 2}
+  playerController: {fileID: 1691490699}
 --- !u!4 &1363444520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
@@ -1090,11 +1105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1532365424313782245, guid: dbf9ac0d6691d594d816d7340e6bd091, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.00000095367
+      value: -5.7e-14
       objectReference: {fileID: 0}
     - target: {fileID: 1532365424313782245, guid: dbf9ac0d6691d594d816d7340e6bd091, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 179
+      value: 166
       objectReference: {fileID: 0}
     - target: {fileID: 1532365424866949600, guid: dbf9ac0d6691d594d816d7340e6bd091, type: 3}
       propertyPath: m_fontSize
@@ -1122,19 +1137,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1532365424866949603, guid: dbf9ac0d6691d594d816d7340e6bd091, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 262
+      value: 243
       objectReference: {fileID: 0}
     - target: {fileID: 1532365424866949603, guid: dbf9ac0d6691d594d816d7340e6bd091, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -165
+      value: -181
       objectReference: {fileID: 0}
     - target: {fileID: 1532365425204440408, guid: dbf9ac0d6691d594d816d7340e6bd091, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -253
+      value: -240
       objectReference: {fileID: 0}
     - target: {fileID: 1532365425204440408, guid: dbf9ac0d6691d594d816d7340e6bd091, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -165
+      value: -181
       objectReference: {fileID: 0}
     - target: {fileID: 1532365425204440409, guid: dbf9ac0d6691d594d816d7340e6bd091, type: 3}
       propertyPath: m_fontSize

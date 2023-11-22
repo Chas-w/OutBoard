@@ -109,7 +109,7 @@
                     -1,  0,  1
                 );
                 
-                float3 color = convolution(i.uv, embossKernel);
+                float3 color = convolution(i.uv, edgeDetectionKernel);
                 return float4(color, 1.0);
             }
             ENDCG
