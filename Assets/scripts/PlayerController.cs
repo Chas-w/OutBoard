@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     
     float moveHorizontal;
     
-    bool speedUp;
+    public bool speedUp;
 
 
     // Start is called before the first frame update

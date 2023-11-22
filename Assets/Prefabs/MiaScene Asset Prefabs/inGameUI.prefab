@@ -12,13 +12,14 @@ GameObject:
   - component: {fileID: 1532365424246226321}
   - component: {fileID: 1532365424246226320}
   - component: {fileID: 1532365424246226323}
+  - component: {fileID: 3930769586272613313}
   m_Layer: 5
   m_Name: inGameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1532365424246225518
 RectTransform:
   m_ObjectHideFlags: 0
@@ -103,6 +104,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &3930769586272613313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532365424246226322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a53a8830497c94a9fc1a4d918b2fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
+  pointComponenet: {fileID: 1532365424313782242}
+  speedComponenet: {fileID: 1532365425204440409}
+  milesComponenet: {fileID: 1532365424866949600}
+  startTime: 0
+  currentTime: 0
+  pointMultiplier: 4
+  speedMultiplier: 1
+  milesMultiplier: 0.5
 --- !u!1 &1532365424313782244
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +194,7 @@ MonoBehaviour:
   m_text: '"XX PTS"'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 09e0f595bbf2795439dec400a27d656d, type: 2}
-  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_sharedMaterial: {fileID: 2140032, guid: 09e0f595bbf2795439dec400a27d656d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -307,7 +329,7 @@ MonoBehaviour:
   m_text: '"XX MI"'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 09e0f595bbf2795439dec400a27d656d, type: 2}
-  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_sharedMaterial: {fileID: 2140032, guid: 09e0f595bbf2795439dec400a27d656d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -442,7 +464,7 @@ MonoBehaviour:
   m_text: '"XX MPH"'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 09e0f595bbf2795439dec400a27d656d, type: 2}
-  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_sharedMaterial: {fileID: 2140032, guid: 09e0f595bbf2795439dec400a27d656d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
