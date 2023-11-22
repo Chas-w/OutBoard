@@ -312,10 +312,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 816539357}
     - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
-      propertyPath: normSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: renderedSegmentHolder
       value: 
       objectReference: {fileID: 1535953739}
@@ -323,22 +319,6 @@ PrefabInstance:
       propertyPath: renderedRoadAddonHolder
       value: 
       objectReference: {fileID: 1415550537}
-    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
-      propertyPath: roadObjectPrefabs.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
-      propertyPath: roadObjectSprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
-      propertyPath: roadObjectPrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 7750459089507772532, guid: de0a1d7a6062e964d92063170e2a26be, type: 3}
-    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
-      propertyPath: roadObjectSprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: f751011290c28e944beae9c456e1a4a7, type: 3}
     - target: {fileID: 2459070035946595406, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: m_Name
       value: RoadManager

@@ -27,7 +27,7 @@ public class RoadManager : MonoBehaviour
 
     public int drawDistance = 12; //This is distance in segments. If DrawDistance is 12, it will render 12 road segments ahead of the player. 
 
-    public int roadAddonsToRender = 50; //This is how many "Renderer" objects we're going to create to render the differet road addons, like trees, ramps.
+    public int roadAddonsToRender = 50; //This is how many "Renderer" objects we're going to create to render the differet road addons, like trees, ramps, etc.
 
     public float segmentLength = 2;
 
@@ -54,6 +54,13 @@ public class RoadManager : MonoBehaviour
     public GameObject renderedRoadAddonHolder;
 
     public float roadAddonSpriteScale = 3;
+
+    public float roadAddonSpriteVerticalDepthOffset = .25f; //This is necessary for the depth effect to work with Mia's cool shader. The shader has the bonus effect of adding something comparable to a meniscus at the horizon line, but that also means that road addons need to be rendered slightly higher up than they actually are, as they get closer to the horizon. This determines just HOW HIGH we're going. 
+
+    public float treeFrequencyPercentage = 0.9f;
+
+    public float maxTreesPerSegment = 4;
+
 
     [Header("Course Modifiers")]
 
@@ -123,13 +130,17 @@ public class RoadManager : MonoBehaviour
 
         public Sprite spriteToRender;
 
+        public float horizontalCollisionFraction;
 
-        public RoadAddon(float horizontalPos, float forwardBackwardPos, Sprite sprite, Color color) {
+
+        public RoadAddon(float horizontalPos, float forwardBackwardPos, Sprite sprite, Color color, float horizontalCollidableAmount) {
             horizontalPositionOnSegment = horizontalPos;
 
             zPos = forwardBackwardPos;
 
             spriteToRender = sprite;
+
+            horizontalCollisionFraction = horizontalCollidableAmount;
             
         
         }
@@ -137,11 +148,11 @@ public class RoadManager : MonoBehaviour
     
     }
 
-    public void AddRoadObjectAt(int segmentToAddTo, float horizontalPos, float forwardBackwardPos, Sprite sprite) {
+    public void AddRoadObjectAt(int segmentToAddTo, float horizontalPos, float forwardBackwardPos, Sprite sprite, float horizontalCollidableFraction) {
 
         Debug.Log("So this is where we should be adding an addon?");
 
-        RoadAddon thisAddon = new RoadAddon(horizontalPos, forwardBackwardPos, sprite, Color.white);
+        RoadAddon thisAddon = new RoadAddon(horizontalPos, forwardBackwardPos, sprite, Color.white, horizontalCollidableFraction);
 
         segments[segmentToAddTo].roadAddons.Add(thisAddon);
 
@@ -186,7 +197,8 @@ public class RoadManager : MonoBehaviour
         //AddCurveAt(5, 12, 4, 6, 4);
 
         Debug.Log("So this is where there should be a call for an addon?");
-        AddRoadObjectAt(11, -1, 0, roadObjectSprites[0]);
+        AddRoadObjectAt(11, 1, 1, roadObjectSprites[0],1/10);
+        AddRoadObjectAt(12, 1, -1, roadObjectSprites[0],1/10);
 
 
     }
@@ -228,7 +240,7 @@ public class RoadManager : MonoBehaviour
         }
 
 
-
+        //We're adding some random curves here!
         float amountToWait = (int)Random.Range(drawDistance, drawDistance+10);
         for (int i = 5; i < segmentToCalculateLoopAt/2; i++)
         {
@@ -287,11 +299,41 @@ public class RoadManager : MonoBehaviour
                 }
 
             }
+        }
 
 
-            
+        //Now for a buttload of random objects on the track. 
+        for (int i = 0; i < segments.Length; i++)
+        {
+            Segment segmentWeAddTo = segments[i];
 
-            
+            //Add trees!
+            for (int v = 0; v < maxTreesPerSegment; v++)
+            {
+                float thisTreePercentage = Random.Range(0.0f, 100.0f) / 100;
+
+                Debug.Log("This tree percentage:" + thisTreePercentage + ", base frequency:" + treeFrequencyPercentage);
+                
+
+                if (thisTreePercentage <= treeFrequencyPercentage)
+                {
+                    Debug.Log("Adding addon to segment number:" + i.ToString());
+
+                    float horizontalRandomOffset = Random.Range(1f, 2); 
+
+
+                    if (Random.Range(0,2) == 1)
+                    {
+                        horizontalRandomOffset *= -1;
+                    }
+
+
+                    AddRoadObjectAt(i, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[0], 1 / 10);
+
+
+                }
+            }
+
 
         }
 
@@ -313,10 +355,24 @@ public class RoadManager : MonoBehaviour
 
         //Debug.DrawLine(WorldToScreen(new Vector3(-roadWidth / 2, 0, baseSegment.p1.z)), WorldToScreen(new Vector3(-roadWidth / 2, 0, roadEnd)));
         //Debug.Log(WorldToScreen(new Vector3(roadWidth / 2, 0, roadStart)).x);
-        
-        
+
+
+
+        //Take a moment to reset the renderers for the road addons
+        for (int i = 0; i < roadAddonRenderers.Count; i++)
+        {
+            GameObject rendererToReset = roadAddonRenderers[i];
+
+            rendererToReset.GetComponent<SpriteRenderer>().sprite = null;
+
+            rendererToReset.transform.position = new Vector3(0, 1000, 0);
+        }
+        int addonRenderersAvailable = roadAddonsToRender;
+
+
         //This is where we draw each road segment
         int meshCounter = 0;
+        float dy = 0;
         for (int i = baseSegment.index+1; i < baseSegment.index + drawDistance; i++)
         {
             Segment currentSegment = segments[i % segments.Length];
@@ -474,79 +530,63 @@ public class RoadManager : MonoBehaviour
             Debug.DrawLine(leftLowerCornerScreenSpace, rightLowerCornerScreenSpace);
             Debug.DrawLine(leftUpperCornerScreenSpace, rightUpperCornerScreenSpace);
 
-           
-            x = x + dx;
-            dx = dx + currentSegment.curviness;
 
-            meshCounter++;
-
-        }
-
-        //Take a moment to reset the renderers
-        for (int i = 0; i < roadAddonRenderers.Count; i++)
-        {
-            GameObject rendererToReset = roadAddonRenderers[i];
-
-            rendererToReset.GetComponent<SpriteRenderer>().sprite = null;
-
-            rendererToReset.transform.position = new Vector3(0,1000,0);
-        }
-
-        int addonRenderersAvailable = roadAddonsToRender;
-        //This is where we draw road addons, for each rendered segment!
-        for (int i = baseSegment.index+1 + drawDistance; i > baseSegment.index+1; i--)
-        {
-            //Debug.Log(i);
-            if (addonRenderersAvailable > 0)
+            //here we render the different road addons.
+            for (int v = 0; v < currentSegment.roadAddons.Count; v++)
             {
-
-
-
-                Segment currentSegment = segments[i % segments.Length];
-
-                //Debug.Log(currentSegment.roadAddons.Count);
-
-                for (int v = 0; v < currentSegment.roadAddons.Count; v++)
+                if (addonRenderersAvailable > 0)
                 {
+
+
+
                     Debug.Log("one log, coming up!");
                     RoadAddon addonToRender = currentSegment.roadAddons[v];
 
-                    float addonHorizontalWorldPos = addonToRender.horizontalPositionOnSegment * roadWidth/2;
+                    float addonHorizontalWorldPos = addonToRender.horizontalPositionOnSegment * roadWidth / 2;
 
-                    float addonLateralPos = (currentSegment.p1.z + currentSegment.p2.z)/2;
+                    float addonLateralPos = (currentSegment.p1.z + currentSegment.p2.z) / 2 - segmentLength / 2 * addonToRender.zPos;
 
-                    Debug.Log(roadAddonsToRender-addonRenderersAvailable);
+                    Debug.Log(roadAddonsToRender - addonRenderersAvailable);
 
                     GameObject addonRenderer = roadAddonRenderers[roadAddonsToRender - addonRenderersAvailable];
 
-                    addonRenderer.GetComponent<SpriteRenderer>().sprite = addonToRender.spriteToRender;
+                    SpriteRenderer addonRendererRenderer = addonRenderer.GetComponent<SpriteRenderer>();
 
-                    addonRenderer.transform.position = WorldToScreen(new Vector3(addonHorizontalWorldPos, currentSegment.p1.y, addonLateralPos), 0);
+                    addonRendererRenderer.sprite = addonToRender.spriteToRender;
+
+                    float percentAlongSegment = Mathf.InverseLerp(1, -1, addonToRender.zPos);
+
+                    Vector3 addonWorldPos = new Vector3(addonHorizontalWorldPos, currentSegment.p1.y, addonLateralPos);
+
+                    addonRenderer.transform.position = WorldToScreen(addonWorldPos, -x - dx * percentAlongSegment);
 
                     float zCam = addonLateralPos - ZPos;
 
                     addonRenderer.transform.localScale = Vector3.one * roadAddonSpriteScale * (1 / Mathf.Tan(FOV / 2)) / zCam;
 
-                    float halfHeight = addonRenderer.GetComponent<SpriteRenderer>().bounds.size.y / 2;
+                    float halfHeight = addonRendererRenderer.bounds.size.y / 2;
 
-                    addonRenderer.transform.position += new Vector3(0, halfHeight, 0);
+                    addonRenderer.transform.position += new Vector3(0, halfHeight + roadAddonSpriteVerticalDepthOffset * zCam, 0);
+
+                    addonRendererRenderer.sortingOrder = (int)-Mathf.Round(addonLateralPos);
 
 
 
                     addonRenderersAvailable--;
+
                 }
-
-
-
             }
 
 
+
+
+            x = x + dx;
+            dx = dx + currentSegment.curviness;
+
+            meshCounter++;
+            //dy += roadAddonSpriteVerticalDepthOffset;
+
         }
-
-
-
-
-
     }
 
     Segment FindSegment(float currentZPosition) {
