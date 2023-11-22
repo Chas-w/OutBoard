@@ -556,17 +556,21 @@ public class RoadManager : MonoBehaviour
 
                     float percentAlongSegment = Mathf.InverseLerp(1, -1, addonToRender.zPos);
 
+                    float zCam = addonLateralPos - ZPos;
+
                     Vector3 addonWorldPos = new Vector3(addonHorizontalWorldPos, currentSegment.p1.y, addonLateralPos);
 
                     addonRenderer.transform.position = WorldToScreen(addonWorldPos, -x - dx * percentAlongSegment);
 
-                    float zCam = addonLateralPos - ZPos;
+                    
 
                     addonRenderer.transform.localScale = Vector3.one * roadAddonSpriteScale * (1 / Mathf.Tan(FOV / 2)) / zCam;
 
                     float halfHeight = addonRendererRenderer.bounds.size.y / 2;
 
-                    addonRenderer.transform.position += new Vector3(0, halfHeight + roadAddonSpriteVerticalDepthOffset * zCam, 0);
+                    float camDistFromAddon = Vector3.Distance( new Vector3(cameraHorizontalOffset,currentSegment.p1.y ,ZPos), addonWorldPos) ;
+
+                    addonRenderer.transform.position += new Vector3(0, halfHeight + roadAddonSpriteVerticalDepthOffset * camDistFromAddon, 0);
 
                     addonRendererRenderer.sortingOrder = (int)-Mathf.Round(addonLateralPos);
 
