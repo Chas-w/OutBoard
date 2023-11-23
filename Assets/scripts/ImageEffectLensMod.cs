@@ -13,7 +13,7 @@ public class ImageEffectLensMod : MonoBehaviour
 
     string d = "_distortion";
 
-    float maxDistort = -0.32f;
+    float maxDistort = -0.37f;
     float minDistort = -0.25f;
     float currentDistort;
 
@@ -48,7 +48,7 @@ public class ImageEffectLensMod : MonoBehaviour
             //speed 
             if (currentDistort < minDistort)
             {
-                currentDistort += 0.001f;
+                currentDistort += 0.005f;
             }
             else if (currentDistort <= minDistort)
             {
