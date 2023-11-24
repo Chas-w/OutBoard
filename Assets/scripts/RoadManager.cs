@@ -197,8 +197,8 @@ public class RoadManager : MonoBehaviour
         //AddCurveAt(5, 12, 4, 6, 4);
 
         Debug.Log("So this is where there should be a call for an addon?");
-        AddRoadObjectAt(11, 1, 1, roadObjectSprites[0],1/10);
-        AddRoadObjectAt(12, 1, -1, roadObjectSprites[0],1/10);
+        AddRoadObjectAt(11, 1, 1, roadObjectSprites[0],1f/10f);
+        AddRoadObjectAt(12, 1, -1, roadObjectSprites[0],1f/10f);
 
 
     }
@@ -328,7 +328,7 @@ public class RoadManager : MonoBehaviour
                     }
 
 
-                    AddRoadObjectAt(i, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[0], 1 / 10);
+                    AddRoadObjectAt(i, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[0], 1f / 10f);
 
 
                 }
@@ -574,7 +574,7 @@ public class RoadManager : MonoBehaviour
 
                     addonRendererRenderer.sortingOrder = (int)-Mathf.Round(addonLateralPos);
 
-
+                    addonRenderer.GetComponent<BoxCollider2D>().size = new Vector2(addonRendererRenderer.bounds.size.x / addonRenderer.transform.lossyScale.x * addonToRender.horizontalCollisionFraction, addonRendererRenderer.bounds.size.y/addonRenderer.transform.lossyScale.y);
 
                     addonRenderersAvailable--;
 
