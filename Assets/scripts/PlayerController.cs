@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     [Header("External Variables")]
     public RoadManager roadManager;
     public float speedUpMultiplier;
+    public float centrifugalForceMultiplier = 0.3f;
+
 
     [Header("Internal Move Variables")]
     [SerializeField] float moveSpeed;
@@ -47,9 +49,15 @@ public class PlayerController : MonoBehaviour
     //---movement 
     void FixedUpdate()
     {
+        Vector2 netHorizontalForce;
+        netHorizontalForce = Vector2.zero;
+        
+
+
         if (moveHorizontal > 0f || moveHorizontal < -0f)
         {
-            myBody.AddForce(new Vector2(moveHorizontal * moveSpeed, 0f), ForceMode2D.Impulse); // not using Time.Delta time beacause AddForce has it applied by default. 
+            //myBody.AddForce(new Vector2(moveHorizontal * moveSpeed, 0f), ForceMode2D.Impulse); // not using Time.Delta time beacause AddForce has it applied by default. 
+            netHorizontalForce += new Vector2(moveHorizontal * moveSpeed, 0f);
         }
 
         if (speedUp && roadManager.speed <= roadManager.maxSpeed)
@@ -64,5 +72,20 @@ public class PlayerController : MonoBehaviour
                 roadManager.speed-= speedUpMultiplier;
             }
         }
+
+
+        //This is where we apply centrifugal force, when the player is going around bends.
+
+
+        float ZPos = roadManager.ZPos;
+        if (roadManager.FindSegment(ZPos).curviness != 0)
+        {
+            //myBody.AddForce(new Vector2(-roadManager.FindSegment(ZPos).curviness * centrifugalForceMultiplier, 0f), ForceMode2D.Impulse);
+            netHorizontalForce += new Vector2(-roadManager.FindSegment(ZPos).curviness * Mathf.Pow(centrifugalForceMultiplier,2) * roadManager.speed, 0f);
+            Debug.Log(-roadManager.FindSegment(ZPos).curviness);
+        }
+
+        myBody.AddForce(netHorizontalForce, ForceMode2D.Impulse);
+
     }
 }

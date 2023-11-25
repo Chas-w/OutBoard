@@ -258,7 +258,7 @@ public class RoadManager : MonoBehaviour
 
                 
 
-                float thisCurveCurviness = Random.Range(0, maxCurveCurviness);
+                float thisCurveCurviness = Random.Range(0, maxCurveCurviness+1);
 
                 if (Random.Range(0, 2) == 1)
                 {
@@ -281,7 +281,7 @@ public class RoadManager : MonoBehaviour
 
 
 
-                    float thisOtherCurveCurviness = Random.Range(0, maxCurveCurviness) * (int)-Mathf.Sign(thisCurveCurviness);
+                    float thisOtherCurveCurviness = Random.Range(0, maxCurveCurviness+1) * (int)-Mathf.Sign(thisCurveCurviness);
 
                     
 
@@ -546,7 +546,7 @@ public class RoadManager : MonoBehaviour
 
                     float addonLateralPos = (currentSegment.p1.z + currentSegment.p2.z) / 2 - segmentLength / 2 * addonToRender.zPos;
 
-                    Debug.Log(roadAddonsToRender - addonRenderersAvailable);
+                    //Debug.Log(roadAddonsToRender - addonRenderersAvailable);
 
                     GameObject addonRenderer = roadAddonRenderers[roadAddonsToRender - addonRenderersAvailable];
 
@@ -593,7 +593,7 @@ public class RoadManager : MonoBehaviour
         }
     }
 
-    Segment FindSegment(float currentZPosition) {
+    public Segment FindSegment(float currentZPosition) {
 
         float segmentIndex = (Mathf.Floor(currentZPosition / segmentLength) % segments.Length);
 
