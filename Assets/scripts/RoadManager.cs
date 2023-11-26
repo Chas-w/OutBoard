@@ -61,6 +61,15 @@ public class RoadManager : MonoBehaviour
 
     public float maxTreesPerSegment = 4;
 
+    public float rockFrequencyPercentage = 0.1f;
+
+   //public float minSpaceBetweenRocks = 3;
+
+    public float rampFrequencyPercentage = 0.02f;
+
+    public int minSegmentsBetweenRamps = 10;
+
+
 
     [Header("Course Modifiers")]
 
@@ -240,7 +249,9 @@ public class RoadManager : MonoBehaviour
         }
 
 
+
         //We're adding some random curves here!
+        int segmentsToWaitBeforeAddingRamp = 10;
         float amountToWait = (int)Random.Range(drawDistance, drawDistance+10);
         for (int i = 5; i < segmentToCalculateLoopAt/2; i++)
         {
@@ -317,7 +328,7 @@ public class RoadManager : MonoBehaviour
 
                 if (thisTreePercentage <= treeFrequencyPercentage)
                 {
-                    Debug.Log("Adding addon to segment number:" + i.ToString());
+                    //Debug.Log("Adding addon to segment number:" + i.ToString());
 
                     float horizontalRandomOffset = Random.Range(1f, 2); 
 
@@ -331,6 +342,49 @@ public class RoadManager : MonoBehaviour
                     AddRoadObjectAt(i, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[0], 1f / 10f);
 
 
+                }
+
+            }
+
+            //Now we'll add some rocks!
+
+            float thisRockPercentage = Random.Range(0.0f, 100.0f) / 100;
+
+            if (thisRockPercentage <= rockFrequencyPercentage)
+            {
+                float horizontalRandomOffset = Random.Range(0f, 1f);
+
+
+                if (Random.Range(0, 2) == 1)
+                {
+                    horizontalRandomOffset *= -1;
+                }
+
+                AddRoadObjectAt(i, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[2], 9f / 10f);
+            }
+
+
+            //Now we'll add some ramps!
+            if (segmentsToWaitBeforeAddingRamp > 0)
+            {
+                segmentsToWaitBeforeAddingRamp--;
+            }
+            else
+            {
+                float thisRampPercentage = Random.Range(0.0f, 100.0f) / 100;
+                if (thisRampPercentage <= rampFrequencyPercentage)
+                {
+                    float horizontalRandomOffset = Random.Range(0f, .8f);
+
+
+                    if (Random.Range(0, 2) == 1)
+                    {
+                        horizontalRandomOffset *= -1;
+                    }
+
+                    AddRoadObjectAt(i, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[4], 1f);
+
+                    segmentsToWaitBeforeAddingRamp = minSegmentsBetweenRamps;
                 }
             }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44455376, g: 0.4880327, b: 0.5408922, a: 1}
+  m_IndirectSpecularColor: {r: 0.444553, g: 0.48803192, b: 0.5408912, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -279,17 +279,49 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 141136677}
     - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: minSegmentsBetweenRamps
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: rampFrequencyPercentage
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: renderedRoadAddonHolder
       value: 
       objectReference: {fileID: 1190665880}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: rockFrequencyPercentage
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: treeFrequencyPercentage
       value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: roadObjectSprites.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: roadObjectSprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: abf26cd54cb697247832ea032a80efa9, type: 3}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: roadObjectSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 6e4c80315cae6a44189440dc86802ee8, type: 3}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: roadObjectSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 640e3fb7255f04e488d2aaa7a555f375, type: 3}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: roadObjectSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 1698021b829a60440a1cfa38058934a9, type: 3}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: roadObjectSprites.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 0312f2682267cde42901cb62db064c66, type: 3}
     - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: roadAddonSpriteVerticalDepthOffset
       value: 0.005
