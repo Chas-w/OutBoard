@@ -251,23 +251,22 @@ public class RoadManager : MonoBehaviour
 
 
         //We're adding some random curves here!
-        int segmentsToWaitBeforeAddingRamp = 10;
         float amountToWait = (int)Random.Range(drawDistance, drawDistance+10);
-        for (int i = 5; i < segmentToCalculateLoopAt/2; i++)
+        for (int i = 9; i < segmentToCalculateLoopAt/2; i++)
         {
             if (amountToWait > 0)
             {
                 amountToWait--;
             }
             else {
-                int curveLength = Random.Range(5, maxCurveLengthInSegments + 1);
+                int curveLength = Random.Range(10, maxCurveLengthInSegments + 1);
 
-                int curveEntrySegmentsNumber = Random.Range(2, curveLength-1);
+                int curveEntrySegmentsNumber = 4;//Random.Range(1, 3);
 
-                int curveExitSegmentsNumber = Random.Range(2, curveLength-1);
+                int curveExitSegmentsNumber = 4;//Random.Range(1, 3);
 
 
-                
+
 
                 float thisCurveCurviness = Random.Range(0, maxCurveCurviness+1);
 
@@ -283,11 +282,11 @@ public class RoadManager : MonoBehaviour
 
                 if (Random.Range(0, 2) == 1)
                 {
-                    curveLength = Random.Range(5, maxCurveLengthInSegments + 1);
+                    int curveLength2 = Random.Range(10, maxCurveLengthInSegments + 1);
 
-                    curveEntrySegmentsNumber = Random.Range(2, curveLength - 1);
+                    curveEntrySegmentsNumber = 4;//Random.Range(1, 3);
 
-                    curveExitSegmentsNumber = Random.Range(2, curveLength - 1);
+                    curveExitSegmentsNumber = 4;//Random.Range(1, 3);
 
 
 
@@ -297,11 +296,11 @@ public class RoadManager : MonoBehaviour
                     
 
 
-                    AddCurveAt(i, curveLength, curveEntrySegmentsNumber, curveExitSegmentsNumber, thisOtherCurveCurviness);
+                    AddCurveAt(i+curveLength, curveLength2, curveEntrySegmentsNumber, curveExitSegmentsNumber, thisOtherCurveCurviness);
 
 
 
-                    amountToWait = (int)(Mathf.Ceil(curveLength));
+                    amountToWait = (int)(Mathf.Ceil(curveLength + curveLength2)) + Random.Range(minCurveDistance, maxCurveDistance);
                 }
                 else {
                     amountToWait = (int)(Mathf.Ceil(curveLength)) + Random.Range(minCurveDistance, maxCurveDistance);
@@ -314,7 +313,8 @@ public class RoadManager : MonoBehaviour
 
 
         //Now for a buttload of random objects on the track. 
-        for (int i = 0; i < segments.Length; i++)
+        int segmentsToWaitBeforeAddingRamp = 10;
+        for (int i = 5; i < segments.Length; i++)
         {
             Segment segmentWeAddTo = segments[i];
 
@@ -675,7 +675,7 @@ public class RoadManager : MonoBehaviour
         {
             Segment segmentToCurve = segments[segmentCurveStartsAt + i];
 
-            segmentToCurve.curviness = EaseIn(0, overallCurviness, i / curveEntrySegments);
+            segmentToCurve.curviness = EaseIn(0, overallCurviness, (float)i / (float)curveEntrySegments );
         }
 
         for (int i = 0; i < segmentsInCurve-curveExitSegments; i++)
@@ -685,11 +685,11 @@ public class RoadManager : MonoBehaviour
             segmentToCurve.curviness = overallCurviness;
         }
 
-        for (int i = 0; i <curveExitSegments; i++)
+        for (int i = 0; i < curveExitSegments; i++)
         {
             Segment segmentToCurve = segments[segmentCurveStartsAt + segmentsInCurve - curveExitSegments + i];
 
-            segmentToCurve.curviness = EaseInOut(overallCurviness,0, i / curveExitSegments);
+            segmentToCurve.curviness = EaseInOut(overallCurviness, 0, (float)i / (float)curveExitSegments);
         }
 
 

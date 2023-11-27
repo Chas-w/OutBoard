@@ -27,7 +27,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _cubicDist: 0.24
-    - _distortion: -0.2700001
+    - _distortion: -0.24500012
     - _intensity: 1.524
     - _scale: 1
     m_Colors: []
