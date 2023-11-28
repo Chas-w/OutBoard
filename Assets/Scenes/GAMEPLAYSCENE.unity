@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.444553, g: 0.48803192, b: 0.5408912, a: 1}
+  m_IndirectSpecularColor: {r: 0.44455376, g: 0.4880327, b: 0.5408922, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -564,6 +564,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 14.369, y: -177.824, z: -155.407}
+--- !u!1 &624465355 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1875714161753982783, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+  m_PrefabInstance: {fileID: 1819934486}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &682513434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5722,7 +5727,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -6054,12 +6059,33 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
   m_PrefabInstance: {fileID: 1819934486}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 624465355}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4dbcb4f8f01afac45acf1f6261f9f619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1691490703
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624465355}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 38b9f399baaaa114bbcc6cb0d2eb55d0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1819934486
 PrefabInstance:
   m_ObjectHideFlags: 0
