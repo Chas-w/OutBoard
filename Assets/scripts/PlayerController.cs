@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,16 @@ public class PlayerController : MonoBehaviour
     
     public bool speedUp;
 
+    //Player anim parameters
+    bool leftPressed = false;
+    bool rightPressed = false;
+    /*bool leftHold; 
+    bool rightHold;*/
+
+    Animator myAnim;
+    SpriteRenderer myRend; 
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,12 +41,53 @@ public class PlayerController : MonoBehaviour
         myBody = gameObject.GetComponent<Rigidbody2D>();
 
         moveSpeed = 5f;
+
+        myAnim = gameObject.GetComponent<Animator>();
+        myRend = gameObject.GetComponent<SpriteRenderer>(); 
     }
 
     // Update is called once per frame
     void Update()
     {
         moveHorizontal = Input.GetAxisRaw("Horizontal"); //we can change this in the Unity settings to controller in the future. 
+
+        if (moveHorizontal < 0) // turning left
+        {
+            myAnim.SetBool("leftHold", true); // continues to hold button down, transitions to holding anim 
+            if (leftPressed == false) // first frame
+            {
+                leftPressed = true;
+                myAnim.SetTrigger("leftPressed"); // anim activated one time 
+            }
+            rightPressed = false;
+            myAnim.SetBool("rightHold" , false);
+            myAnim.ResetTrigger("rightPressed");
+            //myAnim.ResetTrigger("leftPressed");
+        }
+        else if (moveHorizontal > 0) // turning right
+        {
+            myAnim.SetBool("rightHold", true); // continues to hold button down, transitions to holding anim 
+            if (rightPressed == false) // first frame
+            {
+                rightPressed = true;
+                myAnim.SetTrigger("rightPressed"); // anim activated one time 
+            }
+            leftPressed = false;
+            myAnim.SetBool("leftHold", false);
+            //myAnim.ResetTrigger("rightPressed");
+            myAnim.ResetTrigger("leftPressed");
+
+        }
+        else if (moveHorizontal == 0) //reset all values/directions 
+        {
+            leftPressed = false;
+            rightPressed = false;
+            myAnim.ResetTrigger("rightPressed");
+            myAnim.ResetTrigger("leftPressed");
+            myAnim.SetBool("leftHold" , false);
+            myAnim.SetBool("rightHold", false);
+        }
+
        
         if (Input.GetKeyDown(KeyCode.W))
         {
