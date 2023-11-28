@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Internal Move Variables")]
     [SerializeField] float moveSpeed;
+    [SerializeField] float hitSpeed;
+    [SerializeField] float hitSpeedTimerMax;
+    [SerializeField] bool hitObstacle;
     
 
     [Header("Player Input")]
@@ -20,7 +23,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D myBody;
     
     float moveHorizontal;
-    
+    float hitSpeedTimer;
+
     public bool speedUp;
 
 
@@ -56,20 +60,40 @@ public class PlayerController : MonoBehaviour
 
         if (moveHorizontal > 0f || moveHorizontal < -0f)
         {
-            //myBody.AddForce(new Vector2(moveHorizontal * moveSpeed, 0f), ForceMode2D.Impulse); // not using Time.Delta time beacause AddForce has it applied by default. 
+            //myBody.AddForce(new Vector2(moveHorizontal * moveSpeed, 0f), ForceMode2D.Impulse); 
+            // not using Time.Delta time beacause AddForce has it applied by default. 
             netHorizontalForce += new Vector2(moveHorizontal * moveSpeed, 0f);
         }
 
-        if (speedUp && roadManager.speed <= roadManager.maxSpeed)
+        if (!hitObstacle)
         {
-            Debug.Log(speedUp);
-            roadManager.speed += speedUpMultiplier;
-        }  
-        if (!speedUp)
-        {
-            if (roadManager.speed >= roadManager.normSpeed)
+            if (roadManager.speed <= roadManager.normSpeed)
             {
-                roadManager.speed-= speedUpMultiplier;
+                roadManager.speed++;
+            }
+            if (speedUp && roadManager.speed <= roadManager.maxSpeed)
+            {
+                //Debug.Log(speedUp);
+                roadManager.speed += speedUpMultiplier;
+            }
+            if (!speedUp)
+            {
+                if (roadManager.speed >= roadManager.normSpeed)
+                {
+                    roadManager.speed -= speedUpMultiplier;
+                }
+            }
+        }
+        if (hitObstacle)
+        {
+            if (hitSpeedTimer > 0)
+            {
+                roadManager.speed = hitSpeed;
+                hitSpeedTimer--;
+            }
+            if (hitSpeedTimer <= 0)
+            {
+                hitObstacle = false;
             }
         }
 
@@ -87,5 +111,14 @@ public class PlayerController : MonoBehaviour
 
         myBody.AddForce(netHorizontalForce, ForceMode2D.Impulse);
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "staticObstacle")
+        {
+            hitObstacle = true;
+            hitSpeedTimer = hitSpeedTimerMax;
+        }
     }
 }
