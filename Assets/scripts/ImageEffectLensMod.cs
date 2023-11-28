@@ -8,9 +8,9 @@ using System;
 public class ImageEffectLensMod : MonoBehaviour
 {
     [SerializeField] Material mat;
-
     [SerializeField] PlayerController playerController;
 
+    //shader variable 
     string d = "_distortion";
 
     float maxDistort = -0.37f;
@@ -19,7 +19,9 @@ public class ImageEffectLensMod : MonoBehaviour
 
     void Start()
     {
+        //get material componenet
         mat = GetComponent<ImageEffectLensMod>().mat;
+        //return error if no property
         if (!mat.HasProperty(d))
         {
             Debug.LogError("the shader associated with the material on this game object is missing a necessary property. _distortion is required");
@@ -29,6 +31,7 @@ public class ImageEffectLensMod : MonoBehaviour
     }
     void Update()
     {
+        //if speeding up
         if (playerController.speedUp == true)
         {
 
@@ -41,7 +44,7 @@ public class ImageEffectLensMod : MonoBehaviour
                 currentDistort -= 0.005f;
             }
 
-        }
+        } 
         else
         {
             //reset to default values if !speedUp
@@ -56,7 +59,7 @@ public class ImageEffectLensMod : MonoBehaviour
             }
         }
 
-
+        //set distortion based on speed
         mat.SetFloat(d, currentDistort);
     }
 }
