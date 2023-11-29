@@ -6105,6 +6105,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1245466729}
     m_Modifications:
+    - target: {fileID: 1875714161753982776, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: m_Size.y
+      value: 0.05615133
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875714161753982776, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.9842558
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: hitSpeed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: roadManager
       value: 
