@@ -271,6 +271,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: cameraElevation
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: maxCurveCurviness
       value: 4
       objectReference: {fileID: 0}
