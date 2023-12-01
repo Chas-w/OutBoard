@@ -1,4 +1,4 @@
-﻿Shader "examples/week 10/kernels"
+﻿Shader "Custom/kernels"
 {
     Properties
     {

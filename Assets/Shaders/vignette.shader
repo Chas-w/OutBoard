@@ -1,12 +1,17 @@
-﻿Shader "Custom/posterized color replace"
+﻿Shader "Custom/vignette"
 {
-    Properties 
+    Properties
     {
         _MainTex ("render texture", 2D) = "white"{}
-        _steps ("steps", Range(1,16)) = 16
 
-        _recolor ("recolor reference", 2D) = "gray" {}
+        _vr("Vignette Radius", Range(0.0, 1.0)) = 1.0
+        _vs("Vignette Softness", Range(0.0, 1.0)) = 0.5
+
+        _Color("Color", Color) = (1, 1, 1, 1)
+
+
     }
+
     SubShader
     {
         Cull Off
@@ -19,11 +24,18 @@
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
-            
-            sampler2D _MainTex;
-            int _steps;
 
-            sampler2D _recolor;
+            #define MAX_OFFSET 0.15
+
+
+            sampler2D _MainTex;
+
+            float _vr;
+            float _vs;
+
+            float4 _Color;
+            
+
 
             struct MeshData
             {
@@ -34,37 +46,35 @@
             struct Interpolators
             {
                 float4 vertex : SV_POSITION;
-                float2 uv : TEXCOORD0;  
+                float2 uv : TEXCOORD0;
             };
 
             Interpolators vert (MeshData v)
             {
                 Interpolators o;
-
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
-
                 return o;
             }
 
             float4 frag (Interpolators i) : SV_Target
             {
-                float3 color = 0;
+               float3 color = 0;
+                
                 float2 uv = i.uv;
 
-                float3 tex = tex2D(_MainTex, uv);
-                //weights per rgb channel
-                float3 lc = float3(.299, 0.587, 0.114); //luminance coefficient
-                //just math - no need to normalize
-                float greyscale = dot(tex, lc); 
+                color = tex2D(_MainTex, uv);
 
-                greyscale = floor(greyscale * _steps) / _steps;
+                //vignette effect
+                float distFromCenter = distance(uv.xy, float2(0.5, 0.5));
+                float vignette = smoothstep(_vr, _vr - _vs, distFromCenter);
 
-               // color = tex2D(_recolor, float2(greyscale + (_Time.z * 0.2), 0.5));
-                color = tex2D(_recolor, float2(greyscale, 0.5));
+                //add vignette
+                color = saturate(color * vignette);
 
-                
-
+                //overtone color
+                color *= _Color;
+ 
                 return float4(color, 1.0);
             }
             ENDCG
