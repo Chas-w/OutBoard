@@ -5520,6 +5520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec447a03fdb75c1408444201759df422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camIce: 100
   overlay: {fileID: 1147004155}
   timer: {fileID: 3930769584950759578}
 --- !u!1 &1147004153
@@ -10491,6 +10492,7 @@ GameObject:
   - component: {fileID: 1282482055}
   - component: {fileID: 1282482056}
   - component: {fileID: 1282482057}
+  - component: {fileID: 1282482058}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -10657,6 +10659,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectMaterial: {fileID: 2100000, guid: 0e884c56adf9eb44ca98319272948d2f, type: 2}
+--- !u!114 &1282482058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282482047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bf2761ae8f0936458d6df5ed8bbe3c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 1282482050}
+  shakeFrequency: 2
 --- !u!4 &1363444520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
@@ -10714,6 +10730,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.9842558
       objectReference: {fileID: 0}
+    - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: camShake
+      value: 
+      objectReference: {fileID: 1282482058}
     - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: hitSpeed
       value: 0

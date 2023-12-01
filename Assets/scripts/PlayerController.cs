@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("External Variables")]
     public RoadManager roadManager;
+    public cameraShake camShake;
     public float speedUpMultiplier;
     public float centrifugalForceMultiplier = 0.3f;
 
@@ -53,6 +54,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        #region move input
         moveHorizontal = Input.GetAxisRaw("Horizontal"); //we can change this in the Unity settings to controller in the future. 
 
         if (moveHorizontal < 0) // turning left
@@ -100,11 +102,13 @@ public class PlayerController : MonoBehaviour
         {
             speedUp = false;
         }
+        #endregion
     }
 
     //---movement 
     void FixedUpdate()
     {
+        #region setSpeed
         Vector2 netHorizontalForce;
         netHorizontalForce = Vector2.zero;
         
@@ -116,7 +120,9 @@ public class PlayerController : MonoBehaviour
             // not using Time.Delta time beacause AddForce has it applied by default. 
             netHorizontalForce += new Vector2(moveHorizontal * moveSpeed, 0f);
         }
+        #endregion
 
+        #region norm speed
         if (!hitObstacle)
         {
             if (roadManager.speed <= roadManager.normSpeed)
@@ -136,23 +142,27 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        #endregion
+
+        #region collide speed
         if (hitObstacle)
         {
             if (hitSpeedTimer > 0)
             {
+                //DADE COLLIDE ANIM HERE
                 roadManager.speed = hitSpeed;
+                camShake.CameraShake();
                 hitSpeedTimer--;
             }
             if (hitSpeedTimer <= 0)
             {
+                camShake.StopShake();
                 hitObstacle = false;
             }
         }
+        #endregion
 
-
-        //This is where we apply centrifugal force, when the player is going around bends.
-
-
+        #region apply speed
         float ZPos = roadManager.ZPos;
         if (roadManager.FindSegment(ZPos).curviness != 0)
         {
@@ -162,6 +172,7 @@ public class PlayerController : MonoBehaviour
         }
 
         myBody.AddForce(netHorizontalForce, ForceMode2D.Impulse);
+        #endregion
 
     }
 
