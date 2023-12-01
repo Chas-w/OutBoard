@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     [Header("External Variables")]
     public RoadManager roadManager;
-    public cameraShake camShake;
     public float speedUpMultiplier;
     public float centrifugalForceMultiplier = 0.3f;
 
@@ -56,7 +55,6 @@ public class PlayerController : MonoBehaviour
     {
         moveHorizontal = Input.GetAxisRaw("Horizontal"); //we can change this in the Unity settings to controller in the future. 
 
-        #region movement input
         if (moveHorizontal < 0) // turning left
         {
             myAnim.SetBool("leftHold", true); // continues to hold button down, transitions to holding anim 
@@ -102,7 +100,6 @@ public class PlayerController : MonoBehaviour
         {
             speedUp = false;
         }
-        #endregion
     }
 
     //---movement 
@@ -110,17 +107,16 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 netHorizontalForce;
         netHorizontalForce = Vector2.zero;
+        
 
-        #region apply speed
+
         if (moveHorizontal > 0f || moveHorizontal < -0f)
         {
             //myBody.AddForce(new Vector2(moveHorizontal * moveSpeed, 0f), ForceMode2D.Impulse); 
             // not using Time.Delta time beacause AddForce has it applied by default. 
             netHorizontalForce += new Vector2(moveHorizontal * moveSpeed, 0f);
         }
-        #endregion
 
-        #region norm move speed
         if (!hitObstacle)
         {
             if (roadManager.speed <= roadManager.normSpeed)
@@ -140,29 +136,23 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        #endregion
-
-        #region obstacle collisions - move speed
         if (hitObstacle)
         {
             if (hitSpeedTimer > 0)
             {
                 roadManager.speed = hitSpeed;
-                camShake.CameraShake();
                 hitSpeedTimer--;
-
-                //DADE ADD COLLISION ANIM HERE
-
             }
             if (hitSpeedTimer <= 0)
             {
-                camShake.StopShake();
                 hitObstacle = false;
             }
         }
-        #endregion
 
-        #region speed application
+
+        //This is where we apply centrifugal force, when the player is going around bends.
+
+
         float ZPos = roadManager.ZPos;
         if (roadManager.FindSegment(ZPos).curviness != 0)
         {
@@ -172,7 +162,6 @@ public class PlayerController : MonoBehaviour
         }
 
         myBody.AddForce(netHorizontalForce, ForceMode2D.Impulse);
-        #endregion
 
     }
 

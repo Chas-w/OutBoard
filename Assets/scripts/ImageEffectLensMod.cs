@@ -7,27 +7,40 @@ using System;
 
 public class ImageEffectLensMod : MonoBehaviour
 {
-    [SerializeField] Material mat;
+    [SerializeField] Material lensMat;
+    [SerializeField] Material vMat;
     [SerializeField] PlayerController playerController;
 
-    //shader variable 
+    //lens shader variable 
     string d = "_distortion";
+    string r = "_vr";
 
     float maxDistort = -0.37f;
     float minDistort = -0.25f;
     float currentDistort;
 
+    //vignette shader variable
+    float maxRadius = 0.855f;
+    float minRadius = 0.949f;
+    float currentRadius;
+
     void Start()
     {
         //get material componenet
-        mat = GetComponent<ImageEffectLensMod>().mat;
+        lensMat = GetComponent<ImageEffectLensMod>().lensMat;
         //return error if no property
-        if (!mat.HasProperty(d))
+        if (!lensMat.HasProperty(d))
+        {
+            Debug.LogError("the shader associated with the material on this game object is missing a necessary property. _distortion is required");
+        }
+
+        if (!vMat.HasProperty(r))
         {
             Debug.LogError("the shader associated with the material on this game object is missing a necessary property. _distortion is required");
         }
 
         currentDistort = -0.25f;
+        currentRadius = 0.809f;
     }
     void Update()
     {
@@ -35,6 +48,7 @@ public class ImageEffectLensMod : MonoBehaviour
         if (playerController.speedUp == true)
         {
 
+            //lens
             if (currentDistort <= maxDistort)
             {
                 currentDistort = maxDistort;
@@ -44,22 +58,45 @@ public class ImageEffectLensMod : MonoBehaviour
                 currentDistort -= 0.005f;
             }
 
+            //vignette
+            if (currentRadius <= maxRadius)
+            {
+                currentRadius = maxRadius;
+            }
+            else
+            {
+                currentRadius -= 0.005f;
+            }
+
         } 
         else
         {
             //reset to default values if !speedUp
-            //speed 
+  
+            //lens
             if (currentDistort < minDistort)
             {
                 currentDistort += 0.005f;
             }
-            else if (currentDistort <= minDistort)
+            else if (currentDistort >= minDistort)
             {
                 currentDistort = minDistort;
+            }
+
+            //vignette
+            if (currentRadius < minRadius)
+            {
+                currentRadius += 0.005f;
+            }
+            else if (currentRadius >= minRadius)
+            {
+                currentRadius = minRadius;
             }
         }
 
         //set distortion based on speed
-        mat.SetFloat(d, currentDistort);
+        lensMat.SetFloat(d, currentDistort);
+        vMat.SetFloat(r, currentRadius);
+
     }
 }
