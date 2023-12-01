@@ -5697,6 +5697,7 @@ GameObject:
   - component: {fileID: 1282482052}
   - component: {fileID: 1282482051}
   - component: {fileID: 1282482054}
+  - component: {fileID: 1282482055}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5823,6 +5824,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mat: {fileID: 2100000, guid: 75d37fa73bea5423c83c12a875e22314, type: 2}
   playerController: {fileID: 1691490699}
+--- !u!114 &1282482055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282482047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bf2761ae8f0936458d6df5ed8bbe3c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 1282482050}
+  shakeFrequency: 3
 --- !u!4 &1363444520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
@@ -6113,6 +6128,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.9842558
       objectReference: {fileID: 0}
+    - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: camShake
+      value: 
+      objectReference: {fileID: 1282482055}
     - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: hitSpeed
       value: 0
