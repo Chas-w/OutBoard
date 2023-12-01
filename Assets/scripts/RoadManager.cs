@@ -47,7 +47,9 @@ public class RoadManager : MonoBehaviour
 
     public List<GameObject> renderedSegmentsList = new List<GameObject>();
 
-    public Segment[] segments;// = new Segment[trackLength/segmentLength];
+    public Segment[] segments;
+
+    public Segment[] endSegments;
 
     public Vector2 segmentMeshDimensions = new Vector2(2, 2);
 
@@ -177,7 +179,23 @@ public class RoadManager : MonoBehaviour
 
         segments = new Segment[(int)(trackLength/segmentLength)];
 
-        segmentToCalculateLoopAt = (int)(trackLength - 100);
+        //Adding empty segments to the segments list!
+        int loopLength = (int)((trackLength / segmentLength) + 1);
+        for (int i = 1; i < loopLength; i++)
+        {
+            //Debug.Log(new Segment(new Vector3(0, 0, i * segmentLength), new Vector3(0, 0, (i + 1) * segmentLength), Color.white, defaultSegmentSprite));
+            segments[i - 1] = new Segment(new Vector3(0, 0, i * segmentLength), new Vector3(0, 0, (i + 1) * segmentLength), Color.white, defaultSegmentSprite, 0);
+            segments[i - 1].index = i - 1;
+
+        }
+
+
+        //Adding empty segments to the endSegments list!
+
+        segmentToCalculateLoopAt = segments.Length - 50;
+
+        endSegments = new Segment[50];
+
 
 
 
@@ -225,15 +243,6 @@ public class RoadManager : MonoBehaviour
 
     void ResetRoad() 
     {
-        int loopLength = (int)((trackLength / segmentLength) + 1); 
-
-        for (int i = 1; i < loopLength; i++)
-        {
-            //Debug.Log(new Segment(new Vector3(0, 0, i * segmentLength), new Vector3(0, 0, (i + 1) * segmentLength), Color.white, defaultSegmentSprite));
-            segments[i-1] = new Segment(new Vector3(0,0,i* segmentLength), new Vector3(0,0,(i+1)*segmentLength),Color.white,defaultSegmentSprite, 0);
-            segments[i - 1].index = i - 1;
-        
-        }
 
         trackLength = segments.Length * segmentLength;
 
@@ -252,7 +261,7 @@ public class RoadManager : MonoBehaviour
 
         //We're adding some random curves here!
         float amountToWait = (int)Random.Range(drawDistance, drawDistance+10);
-        for (int i = 9; i < segmentToCalculateLoopAt/2; i++)
+        for (int i = 9; i < segmentToCalculateLoopAt; i++)
         {
             if (amountToWait > 0)
             {
@@ -397,6 +406,20 @@ public class RoadManager : MonoBehaviour
     void RenderRoad() {
 
         Segment baseSegment = FindSegment(ZPos);
+
+        if (baseSegment.index > segmentToCalculateLoopAt && !calculatedLoop)
+        {
+            calculatedLoop = true;
+
+            for (int i = 0; i < 50; i++)
+            {
+                endSegments[i] = segments[baseSegment.index + i];
+            }
+
+            ResetRoad();
+
+        }
+
         float basePercent = 1- ((ZPos % segmentLength) / segmentLength);
 
         float dx = +(baseSegment.curviness * basePercent);
@@ -405,7 +428,6 @@ public class RoadManager : MonoBehaviour
 
         //Debug.DrawLine( WorldToScreen(new Vector3(roadWidth/2,0,baseSegment.p1.z)), WorldToScreen(new Vector3(roadWidth/2, 0, roadEnd)));
         //Debug.Log(WorldToScreen(new Vector3(roadWidth/2, 0, roadStart)).x);
-
 
         //Debug.DrawLine(WorldToScreen(new Vector3(-roadWidth / 2, 0, baseSegment.p1.z)), WorldToScreen(new Vector3(-roadWidth / 2, 0, roadEnd)));
         //Debug.Log(WorldToScreen(new Vector3(roadWidth / 2, 0, roadStart)).x);
