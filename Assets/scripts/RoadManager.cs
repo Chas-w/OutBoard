@@ -83,7 +83,7 @@ public class RoadManager : MonoBehaviour
 
     public int maxCurveCurviness = 5;
 
-    private int segmentToCalculateLoopAt;
+    public int segmentToCalculateLoopAt;
 
     private bool calculatedLoop = false;
 
@@ -94,6 +94,15 @@ public class RoadManager : MonoBehaviour
     public GameObject[] roadObjectPrefabs;
 
     private List<GameObject> roadAddonRenderers = new List<GameObject>();
+
+    public enum BiomeTypes
+    {
+        BLANK,
+        FOREST,
+        BURNT
+    }
+
+
 
 
 
@@ -123,13 +132,20 @@ public class RoadManager : MonoBehaviour
 
         public List<RoadAddon> roadAddons = new List<RoadAddon>();
 
+        public bool decorated;
 
-        public Segment(Vector3 point1, Vector3 point2, Color thisColor, Sprite thisSegmentSprite, float thisSegmentCurviness) {
+        public BiomeTypes typeOfBiome;
+
+
+        public Segment(Vector3 point1, Vector3 point2, Color thisColor, Sprite thisSegmentSprite, float thisSegmentCurviness, BiomeTypes startingBiome) {
             p1 = point1;
             p2 = point2;
             segmentColor = thisColor;
             segmentSprite = thisSegmentSprite;
             curviness = thisSegmentCurviness;
+            decorated = false;
+            typeOfBiome = startingBiome;
+
 
         }
     }
@@ -184,23 +200,31 @@ public class RoadManager : MonoBehaviour
         for (int i = 1; i < loopLength; i++)
         {
             //Debug.Log(new Segment(new Vector3(0, 0, i * segmentLength), new Vector3(0, 0, (i + 1) * segmentLength), Color.white, defaultSegmentSprite));
-            segments[i - 1] = new Segment(new Vector3(0, 0, i * segmentLength), new Vector3(0, 0, (i + 1) * segmentLength), Color.white, defaultSegmentSprite, 0);
+            segments[i - 1] = new Segment(new Vector3(0, 0, i * segmentLength), new Vector3(0, 0, (i + 1) * segmentLength), Color.white, defaultSegmentSprite, 0, BiomeTypes.FOREST);
             segments[i - 1].index = i - 1;
 
         }
 
 
         //Adding empty segments to the endSegments list!
-
         segmentToCalculateLoopAt = segments.Length - 50;
-
         endSegments = new Segment[50];
+        for (int i = 1; i < 51; i++)
+        {
+            endSegments[i - 1] = new Segment(new Vector3(0, 0, (segmentToCalculateLoopAt+i-1) * segmentLength), new Vector3(0, 0, (segmentToCalculateLoopAt + i) * segmentLength), Color.white, defaultSegmentSprite, 0, BiomeTypes.FOREST);
+            endSegments[i - 1].index = i - 1;
+        }
 
+        //Now we're going to make [DrawDistance] amount of Mesh Renderers
+        for (int i = 0; i < drawDistance - 1; i++)
+        {
+            GameObject newRenderedSegment = Instantiate(renderedSegmentPrefab, renderedSegmentHolder.transform);
 
+            renderedSegmentsList.Add(newRenderedSegment);
 
+        }
 
         //make a good number of objects that will act as "Renderers" for our road addons
-
         for (int i = 0; i < roadAddonsToRender; i++)
         {
             GameObject newAddon = Instantiate(roadObjectPrefabs[0], renderedRoadAddonHolder.transform);
@@ -219,9 +243,11 @@ public class RoadManager : MonoBehaviour
         camWidth = xAspect / yAspect * camHeight;
 
         Debug.Log("Are we at least reseting the road?");
-        ResetRoad();
+        ResetRoad(BiomeTypes.FOREST);
 
-        //AddCurveAt(5, 12, 4, 6, 4);
+        AddCurveAt(5, 12, 4, 6, 4);
+
+        AddCurveAt(1452, 12, 4, 6, 4);
 
         Debug.Log("So this is where there should be a call for an addon?");
         AddRoadObjectAt(11, 1, 1, roadObjectSprites[0],1f/10f);
@@ -233,7 +259,7 @@ public class RoadManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ZPos = ZPos + speed * Time.deltaTime;
+        ZPos = (ZPos + speed * Time.deltaTime) % (trackLength-2);
 
         //Debug.Log(Mathf.Floor(ZPos / segmentLength) % segments.Length);
 
@@ -241,114 +267,134 @@ public class RoadManager : MonoBehaviour
     }
 
 
-    void ResetRoad() 
+    void ResetRoad(BiomeTypes biomeType) 
     {
 
         trackLength = segments.Length * segmentLength;
 
         //Debug.Log(trackLength);
 
-        //Now we're going to make [DrawDistance] amount of Mesh Renderers
-        for (int i = 0; i < drawDistance-1; i++)
+        for (int i = 0; i < segments.Length; i++)
         {
-            GameObject newRenderedSegment = Instantiate(renderedSegmentPrefab, renderedSegmentHolder.transform);
-
-            renderedSegmentsList.Add(newRenderedSegment);
-
+            segments[i].curviness = 0;
+            segments[i].typeOfBiome = biomeType;
+            segments[i].decorated = false;
         }
+        
 
 
 
         //We're adding some random curves here!
         float amountToWait = (int)Random.Range(drawDistance, drawDistance+10);
-        for (int i = 9; i < segmentToCalculateLoopAt; i++)
+        for (int i = 0; i < segments.Length; i++)
         {
-            if (amountToWait > 0)
+
+            if (i > 9 && i < segmentToCalculateLoopAt)
             {
-                amountToWait--;
-            }
-            else {
-                int curveLength = Random.Range(10, maxCurveLengthInSegments + 1);
-
-                int curveEntrySegmentsNumber = 4;//Random.Range(1, 3);
-
-                int curveExitSegmentsNumber = 4;//Random.Range(1, 3);
 
 
 
-
-                float thisCurveCurviness = Random.Range(0, maxCurveCurviness+1);
-
-                if (Random.Range(0, 2) == 1)
+                if (amountToWait > 0)
                 {
-                    thisCurveCurviness *= -1;
+                    amountToWait--;
                 }
-
-                Debug.Log(i);
-                AddCurveAt(i, curveLength, curveEntrySegmentsNumber, curveExitSegmentsNumber, thisCurveCurviness);
-
-                //amountToWait = (int)(Mathf.Ceil(curveLength));
-
-                if (Random.Range(0, 2) == 1)
+                else
                 {
-                    int curveLength2 = Random.Range(10, maxCurveLengthInSegments + 1);
+                    int curveLength = Random.Range(10, maxCurveLengthInSegments + 1);
 
-                    curveEntrySegmentsNumber = 4;//Random.Range(1, 3);
+                    int curveEntrySegmentsNumber = 4;//Random.Range(1, 3);
 
-                    curveExitSegmentsNumber = 4;//Random.Range(1, 3);
-
-
-
-
-                    float thisOtherCurveCurviness = Random.Range(0, maxCurveCurviness+1) * (int)-Mathf.Sign(thisCurveCurviness);
-
-                    
-
-
-                    AddCurveAt(i+curveLength, curveLength2, curveEntrySegmentsNumber, curveExitSegmentsNumber, thisOtherCurveCurviness);
+                    int curveExitSegmentsNumber = 4;//Random.Range(1, 3);
 
 
 
-                    amountToWait = (int)(Mathf.Ceil(curveLength + curveLength2)) + Random.Range(minCurveDistance, maxCurveDistance);
+
+                    float thisCurveCurviness = Random.Range(0, maxCurveCurviness + 1);
+
+                    if (Random.Range(0, 2) == 1)
+                    {
+                        thisCurveCurviness *= -1;
+                    }
+
+                    Debug.Log(i);
+                    AddCurveAt(i, curveLength, curveEntrySegmentsNumber, curveExitSegmentsNumber, thisCurveCurviness);
+
+                    //amountToWait = (int)(Mathf.Ceil(curveLength));
+
+                    if (Random.Range(0, 2) == 1)
+                    {
+                        int curveLength2 = Random.Range(10, maxCurveLengthInSegments + 1);
+
+                        curveEntrySegmentsNumber = 4;//Random.Range(1, 3);
+
+                        curveExitSegmentsNumber = 4;//Random.Range(1, 3);
+
+
+
+
+                        float thisOtherCurveCurviness = Random.Range(0, maxCurveCurviness + 1) * (int)-Mathf.Sign(thisCurveCurviness);
+
+
+
+
+                        AddCurveAt(i + curveLength, curveLength2, curveEntrySegmentsNumber, curveExitSegmentsNumber, thisOtherCurveCurviness);
+
+
+
+                        amountToWait = (int)(Mathf.Ceil(curveLength + curveLength2)) + Random.Range(minCurveDistance, maxCurveDistance);
+                    }
+                    else
+                    {
+                        amountToWait = (int)(Mathf.Ceil(curveLength)) + Random.Range(minCurveDistance, maxCurveDistance);
+
+
+                    }
+
                 }
-                else {
-                    amountToWait = (int)(Mathf.Ceil(curveLength)) + Random.Range(minCurveDistance, maxCurveDistance);
-
-
-                }
-
             }
+
+
+
         }
 
+        
+    }
 
-        //Now for a buttload of random objects on the track. 
-        int segmentsToWaitBeforeAddingRamp = 10;
-        for (int i = 5; i < segments.Length; i++)
+    void ResetSegment(Segment segmentToReset) {
+
+        //Reset addons here!
+
+        for (int i = 0; i < segmentToReset.roadAddons.Count; i++)
         {
-            Segment segmentWeAddTo = segments[i];
+            segmentToReset.roadAddons[i] = null;
+        }
+        segmentToReset.roadAddons.Clear();
 
+        //Adding new addons appropriate to the biome the segment is in.
+        if (segmentToReset.typeOfBiome == BiomeTypes.FOREST)
+        {
             //Add trees!
             for (int v = 0; v < maxTreesPerSegment; v++)
             {
-                float thisTreePercentage = Random.Range(0.0f, 100.0f) / 100;
+                float thisTreePercentage = Random.Range(0f, 1f);
 
-                Debug.Log("This tree percentage:" + thisTreePercentage + ", base frequency:" + treeFrequencyPercentage);
-                
+                //Debug.Log("This tree percentage:" + thisTreePercentage + ", base frequency:" + treeFrequencyPercentage);
+
 
                 if (thisTreePercentage <= treeFrequencyPercentage)
                 {
                     //Debug.Log("Adding addon to segment number:" + i.ToString());
 
-                    float horizontalRandomOffset = Random.Range(1f, 2); 
+                    float horizontalRandomOffset = Random.Range(1f, 2);
 
 
-                    if (Random.Range(0,2) == 1)
+                    if (Random.Range(0, 2) == 1)
                     {
                         horizontalRandomOffset *= -1;
                     }
 
 
-                    AddRoadObjectAt(i, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[0], 1f / 10f);
+                    AddRoadObjectAt(segmentToReset.index, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[0], 1f / 10f);
 
 
                 }
@@ -357,7 +403,7 @@ public class RoadManager : MonoBehaviour
 
             //Now we'll add some rocks!
 
-            float thisRockPercentage = Random.Range(0.0f, 100.0f) / 100;
+            float thisRockPercentage = Random.Range(0f, 1f);
 
             if (thisRockPercentage <= rockFrequencyPercentage)
             {
@@ -369,60 +415,31 @@ public class RoadManager : MonoBehaviour
                     horizontalRandomOffset *= -1;
                 }
 
-                AddRoadObjectAt(i, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[2], 9f / 10f);
+                AddRoadObjectAt(segmentToReset.index, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[2], 9f / 10f);
             }
-
-
-            //Now we'll add some ramps!
-            if (segmentsToWaitBeforeAddingRamp > 0)
-            {
-                segmentsToWaitBeforeAddingRamp--;
-            }
-            else
-            {
-                float thisRampPercentage = Random.Range(0.0f, 100.0f) / 100;
-                if (thisRampPercentage <= rampFrequencyPercentage)
-                {
-                    float horizontalRandomOffset = Random.Range(0f, .8f);
-
-
-                    if (Random.Range(0, 2) == 1)
-                    {
-                        horizontalRandomOffset *= -1;
-                    }
-
-                    AddRoadObjectAt(i, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[4], 1f);
-
-                    segmentsToWaitBeforeAddingRamp = minSegmentsBetweenRamps;
-                }
-            }
-
-
         }
 
-
+        segmentToReset.decorated = true;
     }
 
     void RenderRoad() {
 
         Segment baseSegment = FindSegment(ZPos);
 
-        if (baseSegment.index > segmentToCalculateLoopAt && !calculatedLoop)
-        {
-            calculatedLoop = true;
-
-            for (int i = 0; i < 50; i++)
-            {
-                endSegments[i] = segments[baseSegment.index + i];
-            }
-
-            ResetRoad();
-
-        }
+        Debug.Log("Time: " + Time.realtimeSinceStartup + " , Segment: " + baseSegment.index);
 
         float basePercent = 1- ((ZPos % segmentLength) / segmentLength);
 
-        float dx = +(baseSegment.curviness * basePercent);
+        float dx;
+
+        if (baseSegment.index > segmentToCalculateLoopAt)
+        {
+            dx = (endSegments[baseSegment.index - segmentToCalculateLoopAt].curviness * basePercent);
+        }
+        else {
+            dx = (baseSegment.curviness * basePercent);
+        }
+
         float x = 0;
 
 
@@ -441,6 +458,7 @@ public class RoadManager : MonoBehaviour
 
             rendererToReset.GetComponent<SpriteRenderer>().sprite = null;
 
+            //We're storing it offscreen for now--way up high, a thousand units above the game!
             rendererToReset.transform.position = new Vector3(0, 1000, 0);
         }
         int addonRenderersAvailable = roadAddonsToRender;
@@ -448,10 +466,37 @@ public class RoadManager : MonoBehaviour
 
         //This is where we draw each road segment
         int meshCounter = 0;
-        float dy = 0;
+
+        //Debug.Log("BaseSegment: " + baseSegment.index.ToString());
         for (int i = baseSegment.index+1; i < baseSegment.index + drawDistance; i++)
         {
-            Segment currentSegment = segments[i % segments.Length];
+            Segment currentSegment = null;
+
+            Vector3 renderLoopingSegmentsOffset = Vector3.zero;
+
+            if (baseSegment.index > segmentToCalculateLoopAt && i < segments.Length)
+            {
+
+                //Debug.Log("BaseSegment: " + baseSegment.index.ToString() + ", currentEndSegment: " + (i - segmentToCalculateLoopAt).ToString() );
+
+                currentSegment = endSegments[i - segmentToCalculateLoopAt];
+            }
+            else {
+                
+                currentSegment = FindSegment(i * segmentLength); //segments[(i % segments.Length];
+
+                if (currentSegment.index < baseSegment.index)
+                {
+                    //Debug.Log("Looping hopefully!: " + FindSegment(i * segmentLength).index.ToString());
+                    renderLoopingSegmentsOffset = new Vector3(0,0,trackLength-segmentLength);
+                }
+            }
+
+            //Before much else, we'd better put some obstacles on the road!
+            if (!currentSegment.decorated)
+            {
+                ResetSegment(currentSegment);
+            }
 
 
             //Drawing little dots for debug purposes
@@ -499,7 +544,7 @@ public class RoadManager : MonoBehaviour
 
                         );
 
-                    vertices.Add( WorldToScreen(currentSegmentVertex,-x -(dx * (k/meshDimensions.y) )) );
+                    vertices.Add( WorldToScreen(currentSegmentVertex+renderLoopingSegmentsOffset,-x -(dx * (k/meshDimensions.y) )) );
 
                     //if (vertices.Count-1 > 0)
                     //{
@@ -530,16 +575,16 @@ public class RoadManager : MonoBehaviour
 
 
 
-            Vector3 rightUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x);
-            Vector3 rightLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x - dx);
+            Vector3 rightUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x);
+            Vector3 rightLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x - dx);
 
             //Debug.DrawLine( rightUpperCornerScreenSpace, rightLowerCornerScreenSpace);
 
 
             //Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x-dx));
 
-            Vector3 leftUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x);
-            Vector3 leftLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x - dx);
+            Vector3 leftUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x);
+            Vector3 leftLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x - dx);
 
             Debug.DrawLine(leftUpperCornerScreenSpace, leftLowerCornerScreenSpace);
 
@@ -615,12 +660,12 @@ public class RoadManager : MonoBehaviour
 
 
 
-                    Debug.Log("one log, coming up!");
+                    //Debug.Log("one log, coming up!");
                     RoadAddon addonToRender = currentSegment.roadAddons[v];
 
                     float addonHorizontalWorldPos = addonToRender.horizontalPositionOnSegment * roadWidth / 2;
 
-                    float addonLateralPos = (currentSegment.p1.z + currentSegment.p2.z) / 2 - segmentLength / 2 * addonToRender.zPos;
+                    float addonLateralPos = (currentSegment.p1.z + currentSegment.p2.z) / 2 - segmentLength / 2 * addonToRender.zPos + renderLoopingSegmentsOffset.z;
 
                     //Debug.Log(roadAddonsToRender - addonRenderersAvailable);
 
@@ -664,9 +709,54 @@ public class RoadManager : MonoBehaviour
             dx = dx + currentSegment.curviness;
 
             meshCounter++;
-            //dy += roadAddonSpriteVerticalDepthOffset;
 
         }
+
+        //Real quick we'd better check if it's time to calculate the next road.
+
+        if (baseSegment.index > segmentToCalculateLoopAt && calculatedLoop == false)
+        {
+            Debug.Log("WAWAWAWAWAWAWWAWAWAWAWWAWAWWAWAWWAWAWWAw");
+
+            calculatedLoop = true;
+
+            //For each segment at the end of segments, we need to clone it to "endSegments" so that the game knows what to render as the player reaches the end of the current biome and a new one is calculated.
+            for (int i = 0; i < 50; i++)
+            {
+                //Debug.Log("Current endSegment: " + i.ToString());
+
+                Segment segmentWeClone = segments[baseSegment.index + i - 1];
+
+                Segment segmentWeCloneTo = endSegments[i];
+
+                Debug.Log(segmentWeCloneTo.index);
+
+                segmentWeCloneTo.p1 = segmentWeClone.p1;
+
+                segmentWeCloneTo.p2 = segmentWeClone.p2;
+
+                segmentWeCloneTo.curviness = segmentWeClone.curviness;
+
+                segmentWeCloneTo.segmentSprite = segmentWeClone.segmentSprite;
+
+                segmentWeCloneTo.typeOfBiome = segmentWeClone.typeOfBiome;
+
+                ResetSegment(segmentWeCloneTo);
+
+                for (int k = 0; k < segmentWeClone.roadAddons.Count; k++)
+                {
+                    segmentWeCloneTo.roadAddons.Add(segmentWeClone.roadAddons[k]);
+                }
+            }
+
+            ResetRoad(BiomeTypes.FOREST);
+
+        } else if (baseSegment.index < segmentToCalculateLoopAt && calculatedLoop == true)
+        {
+            calculatedLoop = false;
+        }
+
+
     }
 
     public Segment FindSegment(float currentZPosition) {

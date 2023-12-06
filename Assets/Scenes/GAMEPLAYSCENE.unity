@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44455376, g: 0.4880327, b: 0.5408922, a: 1}
+  m_IndirectSpecularColor: {r: 0.444553, g: 0.48803192, b: 0.5408912, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5031,8 +5031,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1282482049}
     - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: ZPos
+      value: 2890
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: maxSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: normSpeed
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
+      propertyPath: trackLength
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: drawDistance
