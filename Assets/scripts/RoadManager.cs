@@ -235,14 +235,16 @@ public class RoadManager : MonoBehaviour
 
         }
 
+        /*
         //Now we're going to make [DrawDistance] amount of Secondary Mesh Renderers
         for (int i = 0; i < drawDistance - 1; i++)
         {
-            GameObject newRenderedSegment = Instantiate(secondaryRenderedSegmentPrefab, secondaryRenderedSegmentHolder.transform);
+            //GameObject newRenderedSegment = Instantiate(secondaryRenderedSegmentPrefab, secondaryRenderedSegmentHolder.transform);
 
-            secondaryRenderedSegmentsList.Add(newRenderedSegment);
+            //secondaryRenderedSegmentsList.Add(newRenderedSegment);
 
         }
+        */
 
         //make a good number of objects that will act as "Renderers" for our road addons
         for (int i = 0; i < roadAddonsToRender; i++)
