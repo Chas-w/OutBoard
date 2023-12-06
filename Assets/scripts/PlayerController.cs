@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
+       
         //This is where we apply centrifugal force, when the player is going around bends.
 
 
@@ -157,7 +157,19 @@ public class PlayerController : MonoBehaviour
         if (roadManager.FindSegment(ZPos).curviness != 0)
         {
             //myBody.AddForce(new Vector2(-roadManager.FindSegment(ZPos).curviness * centrifugalForceMultiplier, 0f), ForceMode2D.Impulse);
-            netHorizontalForce += new Vector2(-roadManager.FindSegment(ZPos).curviness * Mathf.Pow(centrifugalForceMultiplier,2) * roadManager.speed, 0f);
+
+
+            //This little bit is what we added!
+            if (roadManager.FindSegment(ZPos).index >  roadManager.segmentToCalculateLoopAt)
+            {
+                netHorizontalForce += new Vector2(-roadManager.endSegments[roadManager.FindSegment(ZPos).index - roadManager.segmentToCalculateLoopAt].curviness * Mathf.Pow(centrifugalForceMultiplier, 2) * roadManager.speed, 0f);
+            }
+            else
+            {
+                netHorizontalForce += new Vector2(-roadManager.FindSegment(ZPos).curviness * Mathf.Pow(centrifugalForceMultiplier, 2) * roadManager.speed, 0f);
+            }
+
+            
             Debug.Log(-roadManager.FindSegment(ZPos).curviness);
         }
 
