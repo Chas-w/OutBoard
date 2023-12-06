@@ -167,14 +167,14 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
-<<<<<<< HEAD
+
         #region apply speed
-=======
+
        
         //This is where we apply centrifugal force, when the player is going around bends.
 
 
->>>>>>> origin/RoadRenderBranch
+
         float ZPos = roadManager.ZPos;
         if (roadManager.FindSegment(ZPos).curviness != 0)
         {
