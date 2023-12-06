@@ -113,6 +113,7 @@ public class PlayerController : MonoBehaviour
         else
             myAnim.SetBool("hitObstacle", false); 
     }
+    #endregion
 
     //---movement 
     void FixedUpdate()
@@ -172,13 +173,7 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
-
         #region apply speed
-
-       
-        //This is where we apply centrifugal force, when the player is going around bends.
-
-
 
         float ZPos = roadManager.ZPos;
         if (roadManager.FindSegment(ZPos).curviness != 0)
@@ -202,7 +197,7 @@ public class PlayerController : MonoBehaviour
 
         myBody.AddForce(netHorizontalForce, ForceMode2D.Impulse);
         #endregion
-
+    
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
