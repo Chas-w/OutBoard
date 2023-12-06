@@ -100,6 +100,13 @@ public class PlayerController : MonoBehaviour
         {
             speedUp = false;
         }
+
+        if (hitObstacle == true)
+        {
+            myAnim.SetBool("hitobstacle", false);
+        }
+        else
+            myAnim.SetBool("hitObstacle", false); 
     }
 
     //---movement 
