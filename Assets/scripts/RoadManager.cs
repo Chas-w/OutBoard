@@ -47,6 +47,17 @@ public class RoadManager : MonoBehaviour
 
     public List<GameObject> renderedSegmentsList = new List<GameObject>();
 
+
+    //Now we're making a secondary road to go underneath the main road
+    public GameObject secondaryRenderedSegmentHolder;
+
+    public GameObject secondaryRenderedSegmentPrefab;
+
+    public List<GameObject> secondaryRenderedSegmentsList = new List<GameObject>();
+
+
+
+
     public Segment[] segments;
 
     public Segment[] endSegments;
@@ -221,6 +232,15 @@ public class RoadManager : MonoBehaviour
             GameObject newRenderedSegment = Instantiate(renderedSegmentPrefab, renderedSegmentHolder.transform);
 
             renderedSegmentsList.Add(newRenderedSegment);
+
+        }
+
+        //Now we're going to make [DrawDistance] amount of Secondary Mesh Renderers
+        for (int i = 0; i < drawDistance - 1; i++)
+        {
+            GameObject newRenderedSegment = Instantiate(secondaryRenderedSegmentPrefab, secondaryRenderedSegmentHolder.transform);
+
+            secondaryRenderedSegmentsList.Add(newRenderedSegment);
 
         }
 
@@ -625,10 +645,9 @@ public class RoadManager : MonoBehaviour
             }
 
             //Debug.Log(uv.Length);
-            
+
 
             
-
             segmentMesh.vertices = vertices.ToArray();
             segmentMesh.uv = uv;
             segmentMesh.triangles = trianglesList.ToArray();
