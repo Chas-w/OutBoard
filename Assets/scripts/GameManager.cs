@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.XR;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,16 +20,37 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
     void Update()
     {
         
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (SceneManager.GetActiveScene().name == "MENU")
+            {
+                SceneManager.LoadScene("GAMEPLAYSCENE");
+            }
+        }
+
+        if (SceneManager.GetActiveScene().name == "GAMEPLAYSCENE") 
+        {
+             GameObject player = GameObject.Find("player");
+             PlayerController playerController = player.GetComponent<PlayerController>();
+
+            if (playerController.health <= 0)
+            {
+                SceneManager.LoadScene("MENU");
+            }
+        }
     }
 }
