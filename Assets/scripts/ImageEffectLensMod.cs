@@ -14,6 +14,7 @@ public class ImageEffectLensMod : MonoBehaviour
     //lens shader variable 
     string d = "_distortion";
     string r = "_vr";
+    string ca = "_intensity";
 
     float maxDistort = -0.37f;
     float minDistort = -0.25f;
@@ -24,6 +25,10 @@ public class ImageEffectLensMod : MonoBehaviour
     float minRadius = 0.949f;
     float currentRadius;
 
+    //chromatic aberration variables
+    float maxIntensity = 0.5f;
+    float minIntensity = 0.01f;
+    float currentIntensity;
     void Start()
     {
         //get material componenet
@@ -68,6 +73,16 @@ public class ImageEffectLensMod : MonoBehaviour
                 currentRadius -= 0.005f;
             }
 
+            //chromatic ab.
+            if (currentIntensity <= maxIntensity)
+            {
+                currentIntensity = maxIntensity;
+            }
+            else
+            {
+                currentIntensity += 0.005f;
+            }
+
         } 
         else
         {
@@ -91,6 +106,16 @@ public class ImageEffectLensMod : MonoBehaviour
             else if (currentRadius >= minRadius)
             {
                 currentRadius = minRadius;
+            }
+
+            //Chromatic ab
+            if (currentIntensity < minIntensity)
+            {
+                currentIntensity -= 0.005f;
+            }
+            else if (currentIntensity >= minIntensity)
+            {
+                currentIntensity = minIntensity;
             }
         }
 
