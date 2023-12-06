@@ -17,17 +17,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float hitSpeed;
     [SerializeField] float hitSpeedTimerMax;
     [SerializeField] bool hitObstacle;
-    
 
-    [Header("Player Input")]
+
+    [Header("Player Vars")]
+    [SerializeField] float healthMax;
+    public float health;
+    public bool speedUp;
     // cleanup player INPUT later
 
     private Rigidbody2D myBody;
     
     float moveHorizontal;
     float hitSpeedTimer;
-
-    public bool speedUp;
+    
 
     //Player anim parameters
     bool leftPressed = false;
@@ -48,7 +50,9 @@ public class PlayerController : MonoBehaviour
         moveSpeed = 5f;
 
         myAnim = gameObject.GetComponent<Animator>();
-        myRend = gameObject.GetComponent<SpriteRenderer>(); 
+        myRend = gameObject.GetComponent<SpriteRenderer>();
+
+        health = healthMax;
     }
 
     // Update is called once per frame
@@ -156,6 +160,7 @@ public class PlayerController : MonoBehaviour
             }
             if (hitSpeedTimer <= 0)
             {
+                health--;
                 camShake.StopShake();
                 hitObstacle = false;
             }
