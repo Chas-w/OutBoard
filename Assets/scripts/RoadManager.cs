@@ -49,6 +49,9 @@ public class RoadManager : MonoBehaviour
 
 
     //Now we're making a secondary road to go underneath the main road
+
+    public float secondaryRoadWidth = 400;
+
     public GameObject secondaryRenderedSegmentHolder;
 
     public GameObject secondaryRenderedSegmentPrefab;
@@ -63,6 +66,8 @@ public class RoadManager : MonoBehaviour
     public Segment[] endSegments;
 
     public Vector2 segmentMeshDimensions = new Vector2(2, 2);
+
+    public Vector2 secondarySegmentMeshDimensions = new Vector2(2, 2);
 
     public GameObject renderedRoadAddonHolder;
 
@@ -235,16 +240,18 @@ public class RoadManager : MonoBehaviour
 
         }
 
-        /*
+        
         //Now we're going to make [DrawDistance] amount of Secondary Mesh Renderers
         for (int i = 0; i < drawDistance - 1; i++)
         {
-            //GameObject newRenderedSegment = Instantiate(secondaryRenderedSegmentPrefab, secondaryRenderedSegmentHolder.transform);
+            GameObject newRenderedSegment = Instantiate(secondaryRenderedSegmentPrefab, secondaryRenderedSegmentHolder.transform);
 
-            //secondaryRenderedSegmentsList.Add(newRenderedSegment);
+            newRenderedSegment.transform.position = new Vector3(0,0,secondaryRenderedSegmentHolder.transform.position.z);
+
+            secondaryRenderedSegmentsList.Add(newRenderedSegment);
 
         }
-        */
+        
 
         //make a good number of objects that will act as "Renderers" for our road addons
         for (int i = 0; i < roadAddonsToRender; i++)
@@ -262,16 +269,18 @@ public class RoadManager : MonoBehaviour
     {
         segmentMeshDimensions = new Vector2( Mathf.Ceil(segmentMeshDimensions.x), Mathf.Ceil(segmentMeshDimensions.y));
 
+        secondarySegmentMeshDimensions = new Vector2( Mathf.Ceil(secondarySegmentMeshDimensions.x), Mathf.Ceil(secondarySegmentMeshDimensions.y));
+
         camWidth = xAspect / yAspect * camHeight;
 
-        Debug.Log("Are we at least reseting the road?");
+        //Debug.Log("Are we at least reseting the road?");
         ResetRoad(BiomeTypes.FOREST);
 
         AddCurveAt(5, 12, 4, 6, 4);
 
         AddCurveAt(1452, 12, 4, 6, 4);
 
-        Debug.Log("So this is where there should be a call for an addon?");
+        //Debug.Log("So this is where there should be a call for an addon?");
         AddRoadObjectAt(11, 1, 1, roadObjectSprites[0],1f/10f);
         AddRoadObjectAt(12, 1, -1, roadObjectSprites[0],1f/10f);
 
@@ -576,7 +585,7 @@ public class RoadManager : MonoBehaviour
                 }
             }
 
-            List<int> trianglesList = new List<int>();
+           List<int> trianglesList = new List<int>();
 
             for (int k = 0; k < meshDimensions.y; k++)
             {
@@ -597,18 +606,18 @@ public class RoadManager : MonoBehaviour
 
 
 
-            Vector3 rightUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x);
-            Vector3 rightLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x - dx);
+            //Vector3 rightUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x);
+            //Vector3 rightLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x - dx);
 
             //Debug.DrawLine( rightUpperCornerScreenSpace, rightLowerCornerScreenSpace);
 
 
             //Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x-dx));
 
-            Vector3 leftUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x);
-            Vector3 leftLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x - dx);
+            //Vector3 leftUpperCornerScreenSpace = WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x);
+            //Vector3 leftLowerCornerScreenSpace = WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0) + renderLoopingSegmentsOffset, -x - dx);
 
-            Debug.DrawLine(leftUpperCornerScreenSpace, leftLowerCornerScreenSpace);
+            //Debug.DrawLine(leftUpperCornerScreenSpace, leftLowerCornerScreenSpace);
 
 
             
@@ -654,8 +663,8 @@ public class RoadManager : MonoBehaviour
             segmentMesh.uv = uv;
             segmentMesh.triangles = trianglesList.ToArray();
 
-           // Debug.Log(vertices.ToArray().Length);
-           // Debug.Log(trianglesList.ToArray().Length);
+            // Debug.Log(vertices.ToArray().Length);
+            // Debug.Log(trianglesList.ToArray().Length);
 
 
 
@@ -663,14 +672,111 @@ public class RoadManager : MonoBehaviour
 
 
 
-            //Little criss-cross pattern for decoration and more visibility
-            //Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(-roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(roadWidth / 2, 0, 0), -x-dx));
-            //Debug.DrawLine(WorldToScreen(currentSegment.p1 + new Vector3(roadWidth / 2, 0, 0), -x), WorldToScreen(currentSegment.p2 + new Vector3(-roadWidth / 2, 0, 0), -x-dx));
 
 
-            //Lines where segments meet
-            Debug.DrawLine(leftLowerCornerScreenSpace, rightLowerCornerScreenSpace);
-            Debug.DrawLine(leftUpperCornerScreenSpace, rightUpperCornerScreenSpace);
+
+
+
+
+
+
+
+
+
+            //So we sure did do a lot of complicated math to render those meshes. Now we do it again to render the secondary parts of the road.
+            meshDimensions = new Vector2( secondarySegmentMeshDimensions.x, secondarySegmentMeshDimensions.y);
+
+            vertices = new List<Vector3>();
+
+            //vertices.Add(leftLowerCornerScreenSpace);
+            //vertices.Add(rightLowerCornerScreenSpace);
+            //vertices.Add(leftUpperCornerScreenSpace);
+            //vertices.Add(rightUpperCornerScreenSpace);
+
+            rightLowerCornerWorldSpace = currentSegment.p1 + new Vector3(secondaryRoadWidth / 2, 0, 0);
+            rightUpperCornerWorldSpace = currentSegment.p2 + new Vector3(secondaryRoadWidth / 2, 0, 0);
+
+
+            leftLowerCornerWorldSpace = currentSegment.p1 + new Vector3(-secondaryRoadWidth / 2, 0, 0);
+            leftUpperCornerWorldSpace = currentSegment.p2 + new Vector3(-secondaryRoadWidth / 2, 0, 0);
+
+
+            xPerStep = secondaryRoadWidth / meshDimensions.x;
+            yPerStep = segmentLength / meshDimensions.y;
+            for (int k = 0; k < meshDimensions.y + 1; k++)
+            {
+
+                for (int g = 0; g < meshDimensions.x + 1; g++)
+                {
+                    Vector3 currentSegmentVertex = new Vector3(
+
+                        leftLowerCornerWorldSpace.x + g * xPerStep
+                        , currentSegment.p1.y
+                        , leftLowerCornerWorldSpace.z + k * yPerStep
+
+                        );
+
+                    vertices.Add(WorldToScreen(currentSegmentVertex + renderLoopingSegmentsOffset, 0));//, -x - (dx * (k / meshDimensions.y))));
+
+                    //if (vertices.Count-1 > 0)
+                    //{
+                    //Debug.DrawLine(vertices[vertices.Count-1], vertices[ vertices.Count - 2]);
+                    //}
+
+                }
+            }
+
+            trianglesList = new List<int>();
+
+            for (int k = 0; k < meshDimensions.y; k++)
+            {
+
+                for (int g = 0; g < meshDimensions.x; g++)
+                {
+                    int triangleStartIndex = (int)(g + (k * (meshDimensions.x + 1)));
+
+                    trianglesList.Add(triangleStartIndex);
+                    trianglesList.Add((int)(triangleStartIndex + meshDimensions.x + 1));
+                    trianglesList.Add((int)(triangleStartIndex + meshDimensions.x + 2));
+
+                    trianglesList.Add(triangleStartIndex);
+                    trianglesList.Add((int)(triangleStartIndex + meshDimensions.x + 2));
+                    trianglesList.Add(triangleStartIndex + 1);
+                }
+            }
+
+
+            segmentMeshObject = secondaryRenderedSegmentsList[segmentMeshIndex];
+            segmentFilter = segmentMeshObject.GetComponent<MeshFilter>();
+            segmentMesh = segmentFilter.mesh;
+
+            uv = new Vector2[vertices.Count];
+
+            for (int g = 0; g < vertices.Count; g++)
+            {
+                //Debug.DrawLine(vertices[g], vertices[g] + new Vector3(0, .1f, 0), Color.red);
+
+                //uv[g] = vertices[g];
+
+                uv[g] = new Vector2(Mathf.Floor(g / (meshDimensions.x + 1)) / meshDimensions.y, (g % (meshDimensions.x + 1)) / meshDimensions.x);
+
+            }
+
+            segmentMesh.vertices = vertices.ToArray();
+            segmentMesh.uv = uv;
+            segmentMesh.triangles = trianglesList.ToArray();
+
+            // Debug.Log(vertices.ToArray().Length);
+            // Debug.Log(trianglesList.ToArray().Length);
+
+
+
+
+
+
+
+
+
 
 
             //here we render the different road addons.
