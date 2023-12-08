@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: snowMat
+  m_Name: sideSnow
   m_Shader: {fileID: 4800000, guid: 7c437a0dfd64d314ca7fa7965c39b648, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -21,6 +21,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _IBL:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -42,12 +46,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
     - _displacement: 0.75
-    - _displacementIntensity: 0.765
+    - _displacementIntensity: 1
     - _fresnelPower: 10
-    - _normalIntensity: 0.016
-    - _reflectivity: 0.844
+    - _normalIntensity: 0.48
+    - _reflectivity: 0.566
     - _scale: 40.1
     m_Colors:
-    - _tint: {r: 0.9098039, g: 0.95220494, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _tint: {r: 0.6901961, g: 0.7607844, b: 0.91372555, a: 1}
   m_BuildTextureStacks: []
