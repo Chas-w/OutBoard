@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float hitSpeed;
     [SerializeField] float gradualSpeedMultiplier;
     [SerializeField] float hitSpeedTimerMax;
-    [SerializeField] float pointSpeedCheck;
+    [SerializeField] float timeSpeedCheck;
     [SerializeField] bool hitObstacle;
 
 
@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region gradual speed up
-        if (timer.currentPoints % pointSpeedCheck == 0)
+        if (timer.currentTime % timeSpeedCheck == 0)
         {
             roadManager.normSpeed += gradualSpeedMultiplier;
             Debug.Log(timer.currentPoints);
