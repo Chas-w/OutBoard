@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [Header("External Variables")]
     public RoadManager roadManager;
     public cameraShake camShake;
-    public Timer timer;
+    //public Timer timer;
     public float speedUpMultiplier;
     public float centrifugalForceMultiplier = 0.3f;
 
@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float hitSpeed;
     [SerializeField] float gradualSpeedMultiplier;
     [SerializeField] float hitSpeedTimerMax;
-    [SerializeField] float timeSpeedCheck;
+    [SerializeField] float timerGradSpeedMax;
     [SerializeField] bool hitObstacle;
 
 
@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     
     float moveHorizontal;
     float hitSpeedTimer;
+    float timerGradSpeed;
     
 
     //Player anim parameters
@@ -56,6 +57,8 @@ public class PlayerController : MonoBehaviour
         myRend = gameObject.GetComponent<SpriteRenderer>();
 
         health = healthMax;
+
+        timerGradSpeed = timerGradSpeedMax;
     }
 
     // Update is called once per frame
@@ -108,19 +111,22 @@ public class PlayerController : MonoBehaviour
         else { myAnim.SetBool("hitObstacle", false); }
         #endregion
 
-        #region gradual speed up
-        if (timer.currentTime % timeSpeedCheck == 0)
-        {
-            roadManager.normSpeed += gradualSpeedMultiplier;
-            Debug.Log(timer.currentPoints);
-        }
-        #endregion
     }
 
 
     //---movement 
     void FixedUpdate()
     {
+        #region gradual speed up
+        if (timerGradSpeed <= 0)
+        {
+            roadManager.normSpeed += gradualSpeedMultiplier;
+            timerGradSpeed = timerGradSpeedMax;
+            //Debug.Log(timer.currentPoints);
+        }
+        else { timerGradSpeed--; }
+        #endregion
+
         #region setSpeed
         Vector2 netHorizontalForce;
         netHorizontalForce = Vector2.zero;
@@ -136,6 +142,8 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region norm speed
+
+   
         if (!hitObstacle)
         {
             
