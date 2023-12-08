@@ -40,6 +40,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Parallax
+    uniqueID: 2557230487
+    locked: 0
+  - name: Secondary Road
+    uniqueID: 1783132251
+    locked: 0
+  - name: Road
+    uniqueID: 2434071849
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
