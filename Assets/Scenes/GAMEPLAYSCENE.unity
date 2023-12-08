@@ -5092,7 +5092,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: maxSpeedMultiplier
-      value: 1.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2459070035946595404, guid: 171902e6c3a719d42a180a7af6255860, type: 3}
       propertyPath: roadAddonsToRender
@@ -10665,7 +10665,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1282482047}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10926,6 +10926,10 @@ PrefabInstance:
       value: -0.9842558
       objectReference: {fileID: 0}
     - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 3930769584950759578}
+    - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: camShake
       value: 
       objectReference: {fileID: 1282482058}
@@ -10941,13 +10945,33 @@ PrefabInstance:
       propertyPath: roadManager
       value: 
       objectReference: {fileID: 215348149}
+    - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: pointSpeedCheck
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: gradualSpeedMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.99999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.99999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.61
+      value: 0.60999995
       objectReference: {fileID: 0}
     - target: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11076,8 +11100,13 @@ MonoBehaviour:
       m_Calls: []
   m_text: '"XX MPH"'
   m_isRightToLeft: 0
+<<<<<<< HEAD
   m_fontAsset: {fileID: 11400000, guid: 0df23f6716259e9488c0af09a73ec2a3, type: 2}
   m_sharedMaterial: {fileID: 5218091060136712749, guid: 0df23f6716259e9488c0af09a73ec2a3, type: 2}
+=======
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+>>>>>>> 4d2875d9418a9414aa45c3dcab3f0bf00c2123f9
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -11201,8 +11230,13 @@ MonoBehaviour:
       m_Calls: []
   m_text: '"XX PTS"'
   m_isRightToLeft: 0
+<<<<<<< HEAD
   m_fontAsset: {fileID: 11400000, guid: d4334ef0deb882a44848d2e39bd9277d, type: 2}
   m_sharedMaterial: {fileID: -4835739335216975451, guid: d4334ef0deb882a44848d2e39bd9277d, type: 2}
+=======
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+>>>>>>> 4d2875d9418a9414aa45c3dcab3f0bf00c2123f9
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -11480,8 +11514,13 @@ MonoBehaviour:
       m_Calls: []
   m_text: '"XX MI"'
   m_isRightToLeft: 0
+<<<<<<< HEAD
   m_fontAsset: {fileID: 11400000, guid: 0df23f6716259e9488c0af09a73ec2a3, type: 2}
   m_sharedMaterial: {fileID: 5218091060136712749, guid: 0df23f6716259e9488c0af09a73ec2a3, type: 2}
+=======
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+>>>>>>> 4d2875d9418a9414aa45c3dcab3f0bf00c2123f9
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -11635,6 +11674,7 @@ MonoBehaviour:
   startTime: 0
   currentTime: 0
   pointMultiplier: 4
+  currentPoints: 0
   speedMultiplier: 1
   currentSpeed: 0
   maxSpeed: 50

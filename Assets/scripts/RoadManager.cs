@@ -206,7 +206,7 @@ public class RoadManager : MonoBehaviour
 
     private void Awake()
     {
-        maxSpeed = normSpeed * maxSpeedMultiplier;
+        
         speed = normSpeed;
 
         segments = new Segment[(int)(trackLength/segmentLength)];
@@ -291,7 +291,7 @@ public class RoadManager : MonoBehaviour
     void Update()
     {
         ZPos = (ZPos + speed * Time.deltaTime) % (trackLength-2);
-
+        maxSpeed = normSpeed + maxSpeedMultiplier;
         //Debug.Log(Mathf.Floor(ZPos / segmentLength) % segments.Length);
 
         RenderRoad();
@@ -457,7 +457,7 @@ public class RoadManager : MonoBehaviour
 
         Segment baseSegment = FindSegment(ZPos);
 
-        Debug.Log("Time: " + Time.realtimeSinceStartup + " , Segment: " + baseSegment.index);
+        //Debug.Log("Time: " + Time.realtimeSinceStartup + " , Segment: " + baseSegment.index);
 
         float basePercent = 1- ((ZPos % segmentLength) / segmentLength);
 
