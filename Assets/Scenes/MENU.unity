@@ -1178,8 +1178,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponenet: {fileID: 267669625}
-  Xamp: 5
-  Yamp: 5
+  Xamp: 4
+  Yamp: 2
 --- !u!1 &1487450880
 GameObject:
   m_ObjectHideFlags: 0
