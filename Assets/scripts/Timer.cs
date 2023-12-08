@@ -54,7 +54,7 @@ public class Timer : MonoBehaviour
                     speedMultiplier += 0.25f;
                 }
 
-                milesMultiplier = 0.6f;
+                milesMultiplier = 0.2f;
             } 
             else
             {
@@ -71,7 +71,7 @@ public class Timer : MonoBehaviour
                     speedMultiplier = minSpeed;
                 }
                 //miles
-                milesMultiplier = 0.5f;
+                milesMultiplier = 0.1f;
             }
 
             //update values

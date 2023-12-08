@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [Header("External Variables")]
     public RoadManager roadManager;
     public cameraShake camShake;
-    //public Timer timer;
+    public Timer timer;
     public float speedUpMultiplier;
     public float centrifugalForceMultiplier = 0.3f;
 
@@ -121,6 +121,8 @@ public class PlayerController : MonoBehaviour
         if (timerGradSpeed <= 0)
         {
             roadManager.normSpeed += gradualSpeedMultiplier;
+            timer.maxSpeed += 5;
+            timer.minSpeed += 5;
             timerGradSpeed = timerGradSpeedMax;
             //Debug.Log(timer.currentPoints);
         }
