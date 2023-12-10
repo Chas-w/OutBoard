@@ -48,5 +48,6 @@ Material:
     - _normalIntensity: 0.016
     - _reflectivity: 0.844
     - _scale: 40.1
-    m_Colors: []
+    m_Colors:
+    - _tint: {r: 0.9098039, g: 0.95220494, b: 1, a: 1}
   m_BuildTextureStacks: []
