@@ -193,7 +193,7 @@ public class RoadManager : MonoBehaviour
 
     public void AddRoadObjectAt(int segmentToAddTo, float horizontalPos, float forwardBackwardPos, Sprite sprite, float horizontalCollidableFraction) {
 
-       // Debug.Log("So this is where we should be adding an addon?");
+        Debug.Log("So this is where we should be adding an addon?");
 
         RoadAddon thisAddon = new RoadAddon(horizontalPos, forwardBackwardPos, sprite, Color.white, horizontalCollidableFraction);
 
@@ -206,6 +206,8 @@ public class RoadManager : MonoBehaviour
 
     private void Awake()
     {
+        maxSpeed = normSpeed * maxSpeedMultiplier;
+        speed = normSpeed;
 
         segments = new Segment[(int)(trackLength/segmentLength)];
 
@@ -285,16 +287,11 @@ public class RoadManager : MonoBehaviour
 
     }
 
-    void FixedUpdate()
-    {
-        speed = normSpeed;
-        maxSpeed = normSpeed + maxSpeedMultiplier;
-    }
     // Update is called once per frame
     void Update()
     {
         ZPos = (ZPos + speed * Time.deltaTime) % (trackLength-2);
-       
+
         //Debug.Log(Mathf.Floor(ZPos / segmentLength) % segments.Length);
 
         RenderRoad();
@@ -350,7 +347,7 @@ public class RoadManager : MonoBehaviour
                         thisCurveCurviness *= -1;
                     }
 
-                    //Debug.Log(i);
+                    Debug.Log(i);
                     AddCurveAt(i, curveLength, curveEntrySegmentsNumber, curveExitSegmentsNumber, thisCurveCurviness);
 
                     //amountToWait = (int)(Mathf.Ceil(curveLength));
@@ -460,7 +457,7 @@ public class RoadManager : MonoBehaviour
 
         Segment baseSegment = FindSegment(ZPos);
 
-        //Debug.Log("Time: " + Time.realtimeSinceStartup + " , Segment: " + baseSegment.index);
+        Debug.Log("Time: " + Time.realtimeSinceStartup + " , Segment: " + baseSegment.index);
 
         float basePercent = 1- ((ZPos % segmentLength) / segmentLength);
 
