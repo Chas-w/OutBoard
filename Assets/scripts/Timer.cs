@@ -19,7 +19,7 @@ public class Timer : MonoBehaviour
     bool timerStarted = false;
 
     //points
-    [SerializeField] float pointMultiplier = 1.5f; public float currentPoints = 0;
+    [SerializeField] float pointMultiplier = 1.5f; private float currentPoints = 0;
 
     //speed
     [SerializeField] float speedMultiplier = 1f; public float currentSpeed = 0; 
@@ -54,7 +54,7 @@ public class Timer : MonoBehaviour
                     speedMultiplier += 0.25f;
                 }
 
-                milesMultiplier = 0.2f;
+                milesMultiplier = 0.6f;
             } 
             else
             {
@@ -71,7 +71,7 @@ public class Timer : MonoBehaviour
                     speedMultiplier = minSpeed;
                 }
                 //miles
-                milesMultiplier = 0.1f;
+                milesMultiplier = 0.5f;
             }
 
             //update values

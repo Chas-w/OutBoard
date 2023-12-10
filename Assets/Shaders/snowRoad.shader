@@ -2,7 +2,6 @@ Shader "Custom/snowRoad"
 {
     Properties 
     {
-        _tint ("tint", Color) = (1, 1, 1, 1)
         _albedo ("albedo", 2D) = "white" {}
         [NoScaleOffset] _normalMap ("normal map", 2D) = "bump" {}
         [NoScaleOffset] _displacementMap ("displacement map", 2D) = "gray" {}
@@ -46,8 +45,6 @@ Shader "Custom/snowRoad"
             float _fresnelPower;
             float _normalIntensity;
             float _displacementIntensity;
-
-            float3 _tint;
 
             struct MeshData
             {
@@ -142,8 +139,6 @@ Shader "Custom/snowRoad"
                 float3 diffuse = surfaceColor * (directDiffuse * lightColor + indirectDiffuse);
 
                 color = diffuse + specular;
-
-                color *= _tint;
 
                 return float4(color, 1.0);
             }

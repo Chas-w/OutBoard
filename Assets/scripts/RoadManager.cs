@@ -193,7 +193,7 @@ public class RoadManager : MonoBehaviour
 
     public void AddRoadObjectAt(int segmentToAddTo, float horizontalPos, float forwardBackwardPos, Sprite sprite, float horizontalCollidableFraction) {
 
-       // Debug.Log("So this is where we should be adding an addon?");
+        Debug.Log("So this is where we should be adding an addon?");
 
         RoadAddon thisAddon = new RoadAddon(horizontalPos, forwardBackwardPos, sprite, Color.white, horizontalCollidableFraction);
 
@@ -206,6 +206,8 @@ public class RoadManager : MonoBehaviour
 
     private void Awake()
     {
+        maxSpeed = normSpeed * maxSpeedMultiplier;
+        speed = normSpeed;
 
         segments = new Segment[(int)(trackLength/segmentLength)];
 
@@ -274,27 +276,22 @@ public class RoadManager : MonoBehaviour
         //Debug.Log("Are we at least reseting the road?");
         ResetRoad(BiomeTypes.FOREST);
 
-        //AddCurveAt(5, 12, 4, 6, 4);
+        AddCurveAt(5, 12, 4, 6, 4);
 
-        //AddCurveAt(1452, 12, 4, 6, 4);
+        AddCurveAt(1452, 12, 4, 6, 4);
 
         //Debug.Log("So this is where there should be a call for an addon?");
-        //AddRoadObjectAt(11, 1, 1, roadObjectSprites[0],1f/10f);
-        //AddRoadObjectAt(12, 1, -1, roadObjectSprites[0],1f/10f);
+        AddRoadObjectAt(11, 1, 1, roadObjectSprites[0],1f/10f);
+        AddRoadObjectAt(12, 1, -1, roadObjectSprites[0],1f/10f);
 
 
     }
 
-    void FixedUpdate()
-    {
-        speed = normSpeed;
-        maxSpeed = normSpeed + maxSpeedMultiplier;
-    }
     // Update is called once per frame
     void Update()
     {
         ZPos = (ZPos + speed * Time.deltaTime) % (trackLength-2);
-       
+
         //Debug.Log(Mathf.Floor(ZPos / segmentLength) % segments.Length);
 
         RenderRoad();
@@ -350,7 +347,7 @@ public class RoadManager : MonoBehaviour
                         thisCurveCurviness *= -1;
                     }
 
-                    //Debug.Log(i);
+                    Debug.Log(i);
                     AddCurveAt(i, curveLength, curveEntrySegmentsNumber, curveExitSegmentsNumber, thisCurveCurviness);
 
                     //amountToWait = (int)(Mathf.Ceil(curveLength));
@@ -439,7 +436,7 @@ public class RoadManager : MonoBehaviour
 
             float thisRockPercentage = Random.Range(0f, 1f);
 
-            if (thisRockPercentage <= rockFrequencyPercentage && Mathf.Abs(segmentToReset.curviness) <= 2f)
+            if (thisRockPercentage <= rockFrequencyPercentage)
             {
                 float horizontalRandomOffset = Random.Range(0f, 1f);
 
@@ -449,7 +446,7 @@ public class RoadManager : MonoBehaviour
                     horizontalRandomOffset *= -1;
                 }
 
-                AddRoadObjectAt(segmentToReset.index, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[2], 8f / 10f);
+                AddRoadObjectAt(segmentToReset.index, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[2], 9f / 10f);
             }
         }
 
@@ -460,7 +457,7 @@ public class RoadManager : MonoBehaviour
 
         Segment baseSegment = FindSegment(ZPos);
 
-        //Debug.Log("Time: " + Time.realtimeSinceStartup + " , Segment: " + baseSegment.index);
+        Debug.Log("Time: " + Time.realtimeSinceStartup + " , Segment: " + baseSegment.index);
 
         float basePercent = 1- ((ZPos % segmentLength) / segmentLength);
 
@@ -666,8 +663,6 @@ public class RoadManager : MonoBehaviour
             segmentMesh.uv = uv;
             segmentMesh.triangles = trianglesList.ToArray();
 
-            segmentMesh.RecalculateBounds();
-
             // Debug.Log(vertices.ToArray().Length);
             // Debug.Log(trianglesList.ToArray().Length);
 
@@ -770,8 +765,6 @@ public class RoadManager : MonoBehaviour
             segmentMesh.vertices = vertices.ToArray();
             segmentMesh.uv = uv;
             segmentMesh.triangles = trianglesList.ToArray();
-
-            segmentMesh.RecalculateBounds();
 
             // Debug.Log(vertices.ToArray().Length);
             // Debug.Log(trianglesList.ToArray().Length);

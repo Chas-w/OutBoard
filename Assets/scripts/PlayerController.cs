@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     [Header("External Variables")]
     public RoadManager roadManager;
     public cameraShake camShake;
-    public Timer timer;
     public float speedUpMultiplier;
     public float centrifugalForceMultiplier = 0.3f;
 
@@ -16,9 +15,7 @@ public class PlayerController : MonoBehaviour
     [Header("Internal Move Variables")]
     [SerializeField] float moveSpeed;
     [SerializeField] float hitSpeed;
-    [SerializeField] float gradualSpeedMultiplier;
     [SerializeField] float hitSpeedTimerMax;
-    [SerializeField] float timerGradSpeedMax;
     [SerializeField] bool hitObstacle;
 
 
@@ -32,7 +29,6 @@ public class PlayerController : MonoBehaviour
     
     float moveHorizontal;
     float hitSpeedTimer;
-    float timerGradSpeed;
     
 
     //Player anim parameters
@@ -57,8 +53,6 @@ public class PlayerController : MonoBehaviour
         myRend = gameObject.GetComponent<SpriteRenderer>();
 
         health = healthMax;
-
-        timerGradSpeed = timerGradSpeedMax;
     }
 
     // Update is called once per frame
@@ -76,7 +70,7 @@ public class PlayerController : MonoBehaviour
                 myAnim.SetTrigger("leftPressed"); // anim activated one time 
             }
             rightPressed = false;
-            myAnim.SetBool("rightHold", false);
+            myAnim.SetBool("rightHold" , false);
             myAnim.ResetTrigger("rightPressed");
             //myAnim.ResetTrigger("leftPressed");
         }
@@ -100,35 +94,30 @@ public class PlayerController : MonoBehaviour
             rightPressed = false;
             myAnim.ResetTrigger("rightPressed");
             myAnim.ResetTrigger("leftPressed");
-            myAnim.SetBool("leftHold", false);
+            myAnim.SetBool("leftHold" , false);
             myAnim.SetBool("rightHold", false);
         }
 
-
-        if (Input.GetKeyDown(KeyCode.W)) { speedUp = true; }
-        else if (Input.GetKeyUp(KeyCode.W)) { speedUp = false; }
-        //if (hitObstacle == true) { myAnim.SetBool("hitobstacle", false); }
-        else { myAnim.SetBool("hitObstacle", false); }
-        #endregion
-
+       
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            speedUp = true; 
+        } else if (Input.GetKeyUp(KeyCode.W))
+        {
+            speedUp = false;
+        }
+        if (hitObstacle == true)
+        {
+            myAnim.SetBool("hitobstacle", false);
+        }
+        else
+            myAnim.SetBool("hitObstacle", false); 
     }
-
+    #endregion
 
     //---movement 
     void FixedUpdate()
     {
-        #region gradual speed up
-        if (timerGradSpeed <= 0)
-        {
-            roadManager.normSpeed += gradualSpeedMultiplier;
-            timer.maxSpeed += 5;
-            timer.minSpeed += 5;
-            timerGradSpeed = timerGradSpeedMax;
-            //Debug.Log(timer.currentPoints);
-        }
-        else { timerGradSpeed--; }
-        #endregion
-
         #region setSpeed
         Vector2 netHorizontalForce;
         netHorizontalForce = Vector2.zero;
@@ -144,11 +133,8 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region norm speed
-
-   
         if (!hitObstacle)
         {
-            
             if (roadManager.speed <= roadManager.normSpeed)
             {
                 roadManager.speed++;
@@ -186,7 +172,6 @@ public class PlayerController : MonoBehaviour
             }
         }
         #endregion
-      
 
         #region apply speed
 
@@ -207,11 +192,12 @@ public class PlayerController : MonoBehaviour
             }
 
             
-            //Debug.Log(-roadManager.FindSegment(ZPos).curviness);
+            Debug.Log(-roadManager.FindSegment(ZPos).curviness);
         }
 
         myBody.AddForce(netHorizontalForce, ForceMode2D.Impulse);
         #endregion
+    
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
