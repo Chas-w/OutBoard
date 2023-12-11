@@ -125,6 +125,7 @@ public class PlayerController : MonoBehaviour
         }
         else { timerGradSpeed--; }
         #endregion
+
         #region setSpeed
         Vector2 netHorizontalForce;
         netHorizontalForce = Vector2.zero;
