@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.444553, g: 0.48803192, b: 0.5408912, a: 1}
+  m_IndirectSpecularColor: {r: 0.44455376, g: 0.4880327, b: 0.5408922, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11563,6 +11563,10 @@ PrefabInstance:
       value: -0.9842558
       objectReference: {fileID: 0}
     - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 3930769584950759578}
+    - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: camShake
       value: 
       objectReference: {fileID: 1282482058}
@@ -11578,6 +11582,14 @@ PrefabInstance:
       propertyPath: roadManager
       value: 
       objectReference: {fileID: 215348149}
+    - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: timerGradSpeedMax
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: gradualSpeedMultiplier
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -12088,7 +12100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!223 &1532365425635958474
 Canvas:
   m_ObjectHideFlags: 0

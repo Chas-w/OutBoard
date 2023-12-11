@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public RoadManager roadManager;
     public cameraShake camShake;
     public float speedUpMultiplier;
+    public Timer timer;
     public float centrifugalForceMultiplier = 0.3f;
 
 
@@ -16,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed;
     [SerializeField] float hitSpeed;
     [SerializeField] float hitSpeedTimerMax;
+    [SerializeField] float gradualSpeedMultiplier;
+    [SerializeField] float timerGradSpeedMax;
     [SerializeField] bool hitObstacle;
 
 
@@ -26,10 +29,10 @@ public class PlayerController : MonoBehaviour
     // cleanup player INPUT later
 
     private Rigidbody2D myBody;
-    
+
     float moveHorizontal;
     float hitSpeedTimer;
-    
+    float timerGradSpeed;
 
     //Player anim parameters
     bool leftPressed = false;
@@ -38,7 +41,7 @@ public class PlayerController : MonoBehaviour
     bool rightHold;*/
 
     Animator myAnim;
-    SpriteRenderer myRend; 
+    SpriteRenderer myRend;
 
 
 
@@ -53,6 +56,7 @@ public class PlayerController : MonoBehaviour
         myRend = gameObject.GetComponent<SpriteRenderer>();
 
         health = healthMax;
+        timerGradSpeed = timerGradSpeedMax;
     }
 
     // Update is called once per frame
@@ -70,7 +74,7 @@ public class PlayerController : MonoBehaviour
                 myAnim.SetTrigger("leftPressed"); // anim activated one time 
             }
             rightPressed = false;
-            myAnim.SetBool("rightHold" , false);
+            myAnim.SetBool("rightHold", false);
             myAnim.ResetTrigger("rightPressed");
             //myAnim.ResetTrigger("leftPressed");
         }
@@ -94,34 +98,37 @@ public class PlayerController : MonoBehaviour
             rightPressed = false;
             myAnim.ResetTrigger("rightPressed");
             myAnim.ResetTrigger("leftPressed");
-            myAnim.SetBool("leftHold" , false);
+            myAnim.SetBool("leftHold", false);
             myAnim.SetBool("rightHold", false);
         }
 
-       
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            speedUp = true; 
-        } else if (Input.GetKeyUp(KeyCode.W))
-        {
-            speedUp = false;
-        }
-        if (hitObstacle == true)
-        {
-            myAnim.SetBool("hitobstacle", false);
-        }
-        else
-            myAnim.SetBool("hitObstacle", false); 
-    }
-    #endregion
 
-    //---movement 
+        if (Input.GetKeyDown(KeyCode.W)) { speedUp = true; }
+        else if (Input.GetKeyUp(KeyCode.W)) { speedUp = false; }
+        //if (hitObstacle == true) { myAnim.SetBool("hitobstacle", false); }
+        else { myAnim.SetBool("hitObstacle", false); }
+        #endregion
+
+        //---movement 
+    
+    }
     void FixedUpdate()
     {
+        #region gradual speed up
+        if (timerGradSpeed <= 0)
+        {
+            roadManager.normSpeed += gradualSpeedMultiplier;
+            timer.maxSpeed += gradualSpeedMultiplier;
+            timer.minSpeed += gradualSpeedMultiplier;
+            timerGradSpeed = timerGradSpeedMax;
+            //Debug.Log(timer.normSpeed);
+        }
+        else { timerGradSpeed--; }
+        #endregion
         #region setSpeed
         Vector2 netHorizontalForce;
         netHorizontalForce = Vector2.zero;
-        
+
 
 
         if (moveHorizontal > 0f || moveHorizontal < -0f)
@@ -182,7 +189,7 @@ public class PlayerController : MonoBehaviour
 
 
             //This little bit is what we added!
-            if (roadManager.FindSegment(ZPos).index >  roadManager.segmentToCalculateLoopAt)
+            if (roadManager.FindSegment(ZPos).index > roadManager.segmentToCalculateLoopAt)
             {
                 netHorizontalForce += new Vector2(-roadManager.endSegments[roadManager.FindSegment(ZPos).index - roadManager.segmentToCalculateLoopAt].curviness * Mathf.Pow(centrifugalForceMultiplier, 2) * roadManager.speed, 0f);
             }
@@ -191,16 +198,16 @@ public class PlayerController : MonoBehaviour
                 netHorizontalForce += new Vector2(-roadManager.FindSegment(ZPos).curviness * Mathf.Pow(centrifugalForceMultiplier, 2) * roadManager.speed, 0f);
             }
 
-            
+
             Debug.Log(-roadManager.FindSegment(ZPos).curviness);
         }
 
         myBody.AddForce(netHorizontalForce, ForceMode2D.Impulse);
         #endregion
-    
+
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "staticObstacle")
         {
