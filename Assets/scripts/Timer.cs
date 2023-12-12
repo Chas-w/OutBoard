@@ -19,7 +19,7 @@ public class Timer : MonoBehaviour
     bool timerStarted = false;
 
     //points
-    [SerializeField] float pointMultiplier = 1.5f; private float currentPoints = 0;
+    [SerializeField] float pointMultiplier = 1.5f; public float currentPoints = 0;
 
     //speed
     [SerializeField] float speedMultiplier = 1f; public float currentSpeed = 0; 
