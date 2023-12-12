@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
             {
                 SceneManager.LoadScene("GAMEPLAYSCENE");
             }
+            if (SceneManager.GetActiveScene().name == "SCOREBOARD")
+            {
+                SceneManager.LoadScene("MENU");
+            }
         }
 
         if (SceneManager.GetActiveScene().name == "GAMEPLAYSCENE") 
@@ -49,8 +53,10 @@ public class GameManager : MonoBehaviour
 
             if (playerController.health <= 0)
             {
-                SceneManager.LoadScene("MENU");
+                SceneManager.LoadScene("SCOREBOARD");
             }
         }
+
+       
     }
 }
