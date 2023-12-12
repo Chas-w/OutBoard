@@ -6,7 +6,10 @@ using UnityEngine.XR;
 
 public class GameManager : MonoBehaviour
 {
-
+    public GameObject timer;
+    public float currentScore;
+    public float finalScore;
+    public float highestScore;
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -32,7 +35,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
 
         if (Input.GetKey(KeyCode.Space))
         {
@@ -48,7 +50,12 @@ public class GameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "GAMEPLAYSCENE") 
         {
-             GameObject player = GameObject.Find("player");
+            timer = GameObject.Find("inGameUI");
+            Timer score = timer.GetComponent<Timer>();
+            currentScore = score.currentPoints;
+
+
+            GameObject player = GameObject.Find("player");
              PlayerController playerController = player.GetComponent<PlayerController>();
 
             if (playerController.health <= 0)
@@ -57,6 +64,14 @@ public class GameManager : MonoBehaviour
             }
         }
 
-       
+        if (SceneManager.GetActiveScene().name == "SCOREBOARD")
+        {
+            finalScore = currentScore;
+            if (finalScore > highestScore)
+            {
+                highestScore = currentScore;
+            }
+        }
+
     }
 }

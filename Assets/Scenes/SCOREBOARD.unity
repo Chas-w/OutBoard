@@ -174,9 +174,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81768137b53b0b843924727c078860c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hsNumb: {fileID: 815258327}
-  csNumb: {fileID: 468485583}
-  timer: {fileID: 0}
+  hsNumb: {fileID: 1756786743}
+  csNumb: {fileID: 737889631}
+  GameManager: {fileID: 0}
+  playerManager: {fileID: 0}
 --- !u!1 &468485581
 GameObject:
   m_ObjectHideFlags: 0
