@@ -1,6 +1,8 @@
 Shader "examples/week 10/texture sdf"
 {
     Properties {
+
+        _MainTex ("render texture", 2D) = "white"{}
         [NoScaleOffset]_tex ("texture", 2D) = "white" {}
         _threshold ("threshold", Range(0,1)) = 0.5
         _softness ("softness", Range(0,1)) = 0
@@ -21,6 +23,7 @@ Shader "examples/week 10/texture sdf"
             #pragma fragment frag
             #include "UnityCG.cginc"
 
+            sampler2D _MainTex;
             sampler2D _tex;
             float _threshold;
             float _softness;
@@ -53,14 +56,17 @@ Shader "examples/week 10/texture sdf"
             float4 frag (Interpolators i) : SV_Target
             {
                 float3 color = 0;
+                float2 uv = i.uv;
+                float3 mt = tex2D(_MainTex, uv);
+
 
                 //center mask
-                float2 uv = i.uv * 2 - 1;
+                uv = i.uv * 2 - 1;
                 float radius = 0.3;
                 float d = length(uv) - radius;
 
                 //allow threshold to be modified over time
-                float threshold = _threshold * sin(_Time.y * 4);
+                float threshold = _threshold;
                 
                 //sdf
                 float df = tex2D(_tex, i.uv).r;
@@ -85,6 +91,7 @@ Shader "examples/week 10/texture sdf"
 
                 color = lerp(color, op, 0.05);
 
+                color = mt * color;
 
                 return float4(color, shape);
             }

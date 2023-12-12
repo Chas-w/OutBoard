@@ -19,11 +19,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float hitSpeedTimerMax;
     [SerializeField] float gradualSpeedMultiplier;
     [SerializeField] float timerGradSpeedMax;
-    [SerializeField] bool hitObstacle;
+    public bool hitObstacle;
 
 
     [Header("Player Vars")]
-    [SerializeField] float healthMax;
+    public float healthMax;
     public float health;
     public bool speedUp;
     // cleanup player INPUT later
@@ -172,6 +172,7 @@ public class PlayerController : MonoBehaviour
                 camShake.CameraShake();
                 myAnim.SetBool("hitAnim", true);
                 hitSpeedTimer--;
+                
             }
             if (hitSpeedTimer <= 0)
             {
@@ -179,6 +180,7 @@ public class PlayerController : MonoBehaviour
                 camShake.StopShake();
                 myAnim.SetBool("hitAnim", false);
                 hitObstacle = false;
+                
             }
         }
         #endregion
