@@ -11583,12 +11583,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 215348149}
     - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
+      propertyPath: hitSpeedTimerMax
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: timerGradSpeedMax
-      value: 300
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 1875714161753982778, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: gradualSpeedMultiplier
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1875714161753982779, guid: da1ee8a6ddb75d9499749f19f2a26e01, type: 3}
       propertyPath: m_RootOrder
@@ -12368,6 +12372,7 @@ MonoBehaviour:
   startTime: 0
   currentTime: 0
   pointMultiplier: 4
+  currentPoints: 0
   speedMultiplier: 1
   currentSpeed: 0
   maxSpeed: 50
