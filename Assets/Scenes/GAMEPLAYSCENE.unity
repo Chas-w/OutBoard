@@ -5145,7 +5145,6 @@ GameObject:
   m_Component:
   - component: {fileID: 289511516}
   - component: {fileID: 289511517}
-  - component: {fileID: 289511518}
   m_Layer: 0
   m_Name: parallaxBG-Sheet_0 (2)
   m_TagString: Untagged
@@ -5220,27 +5219,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &289511518
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 289511515}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bd9796af8b16a97429af30dfdb3d8fa7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &309512530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5515,7 +5493,6 @@ GameObject:
   m_Component:
   - component: {fileID: 529999169}
   - component: {fileID: 529999170}
-  - component: {fileID: 529999171}
   m_Layer: 0
   m_Name: parallaxBG-Sheet_0 (3)
   m_TagString: Untagged
@@ -5590,27 +5567,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &529999171
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 529999168}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bd9796af8b16a97429af30dfdb3d8fa7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &604957368
 GameObject:
   m_ObjectHideFlags: 0
@@ -5778,7 +5734,6 @@ GameObject:
   - component: {fileID: 895997685}
   - component: {fileID: 895997684}
   - component: {fileID: 895997686}
-  - component: {fileID: 895997687}
   m_Layer: 0
   m_Name: parallaxBG-Sheet_0
   m_TagString: Untagged
@@ -5872,27 +5827,6 @@ MonoBehaviour:
   scrollSpeed: 0.2
   camera: {fileID: 1282482050}
   roadManagerObject: {fileID: 1342922666}
---- !u!95 &895997687
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895997683}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bd9796af8b16a97429af30dfdb3d8fa7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &987836461
 GameObject:
   m_ObjectHideFlags: 0
@@ -6225,7 +6159,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1149221900}
   - component: {fileID: 1149221901}
-  - component: {fileID: 1149221902}
   m_Layer: 0
   m_Name: parallaxBG-Sheet_0 (4)
   m_TagString: Untagged
@@ -6300,27 +6233,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &1149221902
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149221899}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bd9796af8b16a97429af30dfdb3d8fa7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1176879371
 GameObject:
   m_ObjectHideFlags: 0
@@ -11750,7 +11662,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1881173995}
   - component: {fileID: 1881173996}
-  - component: {fileID: 1881173997}
   m_Layer: 0
   m_Name: parallaxBG-Sheet_0 (1)
   m_TagString: Untagged
@@ -11825,27 +11736,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &1881173997
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1881173994}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bd9796af8b16a97429af30dfdb3d8fa7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2071663184
 GameObject:
   m_ObjectHideFlags: 0
