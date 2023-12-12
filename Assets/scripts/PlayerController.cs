@@ -170,12 +170,14 @@ public class PlayerController : MonoBehaviour
                 //DADE COLLIDE ANIM HERE
                 roadManager.speed = hitSpeed;
                 camShake.CameraShake();
+                myAnim.SetBool("hitAnim", true);
                 hitSpeedTimer--;
             }
             if (hitSpeedTimer <= 0)
             {
                 health--;
                 camShake.StopShake();
+                myAnim.SetBool("hitAnim", false);
                 hitObstacle = false;
             }
         }
