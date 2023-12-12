@@ -15,6 +15,8 @@ Shader "Custom/snowRoad"
         _fresnelPower ("fresnel power", Range(0, 10)) = 5
         _normalIntensity ("normal intensity", Range(0, 1)) = 1
         _displacementIntensity ("displacement intensity", Range(0, 1)) = 0
+
+        _color("tint", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -45,6 +47,7 @@ Shader "Custom/snowRoad"
             float _fresnelPower;
             float _normalIntensity;
             float _displacementIntensity;
+            float4 _color;
 
             struct MeshData
             {
@@ -139,6 +142,8 @@ Shader "Custom/snowRoad"
                 float3 diffuse = surfaceColor * (directDiffuse * lightColor + indirectDiffuse);
 
                 color = diffuse + specular;
+
+                color *= _color;
 
                 return float4(color, 1.0);
             }

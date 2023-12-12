@@ -8,6 +8,9 @@
         _vs("Vignette Softness", Range(0.0, 1.0)) = 0.5
 
         _Color("Color", Color) = (1, 1, 1, 1)
+        
+        _saturation("saturation", Range(0.0, 1.0)) = 0.5
+
 
 
     }
@@ -35,7 +38,7 @@
 
             float4 _Color;
             
-
+            float _saturation;
 
             struct MeshData
             {
@@ -74,6 +77,9 @@
 
                 //overtone color
                 color *= _Color;
+
+                //desaturate image
+                color = lerp(color.rrr, color, _saturation);
  
                 return float4(color, 1.0);
             }
