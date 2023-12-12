@@ -508,7 +508,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'HIGHESTSCORE:
+  m_text: 'HIGHEST SCORE:
 
 
 '
