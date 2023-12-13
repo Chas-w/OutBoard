@@ -32,8 +32,8 @@ public class hsTable : MonoBehaviour
     void Update()
     {
 
-        csNumb.text = "HIGH SCORE: " + playerManager.currentScore.ToString("f0") + " PTS";
-        hsNumb.text = "YOUR SCORE: " + playerManager.highestScore.ToString("f0") + " PTS";
+        csNumb.text = "YOUR SCORE: " + playerManager.currentScore.ToString("f0") + " PTS";
+        hsNumb.text = "HIGH SCORE: " + playerManager.highestScore.ToString("f0") + " PTS";
 
     }
 }
