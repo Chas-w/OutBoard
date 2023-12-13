@@ -113,6 +113,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -122,10 +134,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 385
-        height: 55
+        width: 384
+        height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,12 +153,12 @@ TextureImporter:
       name: parallaxBG-Sheet_1
       rect:
         serializedVersion: 2
-        x: 388
+        x: 389
         y: 0
-        width: 386
-        height: 55
+        width: 384
+        height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -162,12 +174,12 @@ TextureImporter:
       name: parallaxBG-Sheet_2
       rect:
         serializedVersion: 2
-        x: 777
+        x: 778
         y: 0
-        width: 387
-        height: 56
+        width: 384
+        height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -183,12 +195,12 @@ TextureImporter:
       name: parallaxBG-Sheet_3
       rect:
         serializedVersion: 2
-        x: 1165
+        x: 1167
         y: 0
-        width: 387
-        height: 58
+        width: 384
+        height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -204,12 +216,12 @@ TextureImporter:
       name: parallaxBG-Sheet_4
       rect:
         serializedVersion: 2
-        x: 1555
+        x: 1556
         y: 0
-        width: 387
-        height: 58
+        width: 384
+        height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,12 +237,12 @@ TextureImporter:
       name: parallaxBG-Sheet_5
       rect:
         serializedVersion: 2
-        x: 1943
+        x: 1945
         y: 0
-        width: 387
-        height: 58
+        width: 384
+        height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -246,12 +258,12 @@ TextureImporter:
       name: parallaxBG-Sheet_6
       rect:
         serializedVersion: 2
-        x: 2333
+        x: 2334
         y: 0
-        width: 386
+        width: 384
         height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -267,12 +279,12 @@ TextureImporter:
       name: parallaxBG-Sheet_7
       rect:
         serializedVersion: 2
-        x: 2722
+        x: 2723
         y: 0
-        width: 385
-        height: 55
+        width: 384
+        height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

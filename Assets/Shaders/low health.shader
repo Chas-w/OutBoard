@@ -82,7 +82,7 @@
                 //screen tint
                 color *= _color;
                 
-                color *= color.r * sin(_Time.y * 4) * 0.5 + 1;
+                //color *= color.r * sin(_Time.y * 4) * 0.5 + 1;
 
 
                 return float4(color, 1.0);
