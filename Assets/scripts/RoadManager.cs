@@ -274,9 +274,9 @@ public class RoadManager : MonoBehaviour
         //Debug.Log("Are we at least reseting the road?");
         ResetRoad(BiomeTypes.FOREST);
 
-        AddCurveAt(5, 12, 4, 6, 4);
+        //AddCurveAt(5, 12, 4, 6, 4);
 
-        AddCurveAt(1452, 12, 4, 6, 4);
+        //AddCurveAt(1452, 12, 4, 6, 4);
 
         //Debug.Log("So this is where there should be a call for an addon?");
         AddRoadObjectAt(11, 1, 1, roadObjectSprites[0],1f/10f);
@@ -436,19 +436,26 @@ public class RoadManager : MonoBehaviour
 
             //Now we'll add some rocks!
 
-            float thisRockPercentage = Random.Range(0f, 1f);
-
-            if (thisRockPercentage <= rockFrequencyPercentage)
+            if (segmentToReset.index > 9 && segmentToReset.curviness <= 2f)
             {
-                float horizontalRandomOffset = Random.Range(0f, 1f);
 
 
-                if (Random.Range(0, 2) == 1)
+
+                float thisRockPercentage = Random.Range(0f, 1f);
+
+                if (thisRockPercentage <= rockFrequencyPercentage)
                 {
-                    horizontalRandomOffset *= -1;
+                    float horizontalRandomOffset = Random.Range(0f, 1f);
+
+
+                    if (Random.Range(0, 2) == 1)
+                    {
+                        horizontalRandomOffset *= -1;
+                    }
+
+                    AddRoadObjectAt(segmentToReset.index, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[2], 9f / 10f);
                 }
 
-                AddRoadObjectAt(segmentToReset.index, 0 + horizontalRandomOffset, Random.Range(-1, 1), roadObjectSprites[2], 9f / 10f);
             }
         }
 
@@ -664,6 +671,7 @@ public class RoadManager : MonoBehaviour
             segmentMesh.vertices = vertices.ToArray();
             segmentMesh.uv = uv;
             segmentMesh.triangles = trianglesList.ToArray();
+            segmentMesh.RecalculateBounds();
 
             // Debug.Log(vertices.ToArray().Length);
             // Debug.Log(trianglesList.ToArray().Length);
@@ -767,6 +775,7 @@ public class RoadManager : MonoBehaviour
             segmentMesh.vertices = vertices.ToArray();
             segmentMesh.uv = uv;
             segmentMesh.triangles = trianglesList.ToArray();
+            segmentMesh.RecalculateBounds();
 
             // Debug.Log(vertices.ToArray().Length);
             // Debug.Log(trianglesList.ToArray().Length);
