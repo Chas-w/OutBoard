@@ -25,7 +25,7 @@ public class ImageEffectLensMod : MonoBehaviour
     float currentDistort;
 
     //vignette shader variable
-    float maxRadius = 0.855f;
+    float maxRadius = 0.83f;
     float minRadius = 0.949f;
     float currentRadius;
 
