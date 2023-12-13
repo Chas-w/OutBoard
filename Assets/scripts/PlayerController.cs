@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float hitSpeedTimerMax;
     [SerializeField] float gradualSpeedMultiplier;
     [SerializeField] float timerGradSpeedMax;
+    [SerializeField] AudioSource hitNoise;
     public bool hitObstacle;
 
 
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
 
         myAnim = gameObject.GetComponent<Animator>();
         myRend = gameObject.GetComponent<SpriteRenderer>();
+
 
         health = healthMax;
         timerGradSpeed = timerGradSpeedMax;
@@ -167,7 +169,7 @@ public class PlayerController : MonoBehaviour
         {
             if (hitSpeedTimer > 0)
             {
-                //DADE COLLIDE ANIM HERE
+                hitNoise.Play();
                 roadManager.speed = hitSpeed;
                 camShake.CameraShake();
                 myAnim.SetBool("hitAnim", true);
